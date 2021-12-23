@@ -1,0 +1,12 @@
+# 一、Flowable数据库表命名规则 按字典顺序整理
+ACT_CMMN_* : 待整理  
+ACT_CO_* : 待整理  
+ACT_DMN_* : 待整理  
+ACT_EVT_LOG : 事件日志  
+ACT_FO_* : 待整理整理  
+ACT_GE_* : 普通数据，各种情况都使用的数据。  
+ACT_HI_* : ’HI’表示history。就是这些表包含着历史的相关数据，如结束的流程实例，变量，任务，等等。  
+ACT_ID_* : ’ID’表示identity(组织机构)。这些表包含标识的信息，如用户，用户组，等等。  
+ACT_FROCDEE_INFO : 待整理  
+ACT_RE_* : ’RE’表示repository（存储）。RepositoryService接口操作的表。带此前缀的表包含的是静态信息，如，流程定义，流程的资源（图片，规则等）。  
+ACT_RU_* : ’RU’表示runtime。这是运行时的表存储着流程变量，用户任务，变量，职责（job）等运行时的数据。flowable只存储实例执行期间的运行时数据，当流程实例结束时，将删除这些记录。这就保证了这些运行时的表小且快。  
