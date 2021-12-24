@@ -82,7 +82,7 @@ ACT_RU_* : ’RU’表示runtime。这是运行时的表存储着流程变量，
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | REV_ | int(11) | N | N | | | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
 | KEY_ | varchar(255) | N | N | | | |  
@@ -146,7 +146,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | AUTHOR | varchar(255) | N | N | | 操作人 | |  
 | FILENAME | varchar(255) | N | N | | 文件名 | |  
 | DATEEXECUTED | datetime | N | N | | 执行时间 | |
@@ -190,7 +190,7 @@ CREATE TABLE `ACT_CMMN_DATABASECHANGELOG` (
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | int(11) | Y | N | 主键 | | |  
+| ID_ | int(11) | Y | N | | 主键 | |  
 | LOCKED | bit(1) | N | N | | | |  
 | LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
 | LOCKEDBY | varchar(255) | N | Y | NULL | 锁定人 | |  
@@ -225,13 +225,13 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
 | CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | |  
 | KEY_ | varchar(255) | N | Y | NULL | | |  
 | DEPLOY_TIME_ | datetime | N | Y | NULL | 部署时间 | |  
 | PARENT_DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
-| TENANT_ID_ | varchar(255) | N | Y |  | 空字符串 | |  
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |  
 
 > SQL  
 
@@ -266,10 +266,10 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
 | DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | 关联ACT_DMN_DEPLOYMENT表ID | |  
-| RESOURCE_BYTES_ | longblob | N | Y | | 源码 | |  
+| RESOURCE_BYTES_ | longblob | N | Y | NULL | 源码 | |  
 | GENERATED_ | bit(1) | N | Y | NULL | | |  
 
 > SQL  
@@ -314,7 +314,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | REV_ | int(11) | N | N | | | |  
 | BUSINESS_KEY_ | varchar(255) | N | Y | NULL | | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |
@@ -367,7 +367,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | REV_ | int(11) | N | N | | | |  
 | NAME_ | varchar(255) | N | N | | 名称 | |  
 | TIME_STAMP_ | datetime | N | N | | 时间戳 | |  
@@ -408,7 +408,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | REV_ | int(11) | N | N | | | |  
 | BUSINESS_KEY_ | varchar(255) | N | Y | NULL | | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
@@ -475,7 +475,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | N | | 名称 | |  
 | TIME_STAMP_ | datetime | N | N | | 时间戳 | |  
 | CASE_INST_ID_ | varchar(255) | N | N | | | |  
@@ -527,7 +527,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | REV_ | int(11) | N | N | | | |  
 | CASE_DEF_ID_ | varchar(255) | N | Y | NULL | 关联ACT_CMMN_CASEDEF表ID | |  
 | CASE_INST_ID_ | varchar(255) | N | Y | NULL | 关联ACT_CMMN_RU_CASE_INST表ID | |  
@@ -606,7 +606,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | REV_ | int(11) | N | N | | | |  
 | CASE_DEF_ID_ | varchar(255) | N | Y | NULL | 关联ACT_CMMN_CASEDEF表ID | |  
 | CASE_INST_ID_ | varchar(255) | N | Y | NULL | 关联ACT_CMMN_RU_CASE_INST表ID | |  
@@ -664,7 +664,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | N | | 名称 | |  
 | MIME_TYPE_ | varchar(255) | N | N | | | |  
 | TASK_ID_ | varchar(255) | N | N | | | |  
@@ -728,7 +728,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | AUTHOR | varchar(255) | N | N | | 操作人 | |  
 | FILENAME | varchar(255) | N | N | | 文件名 | |  
 | DATEEXECUTED | datetime | N | N | | 执行时间 | |  
@@ -772,7 +772,7 @@ CREATE TABLE `ACT_CO_DATABASECHANGELOG` (
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID | int(11) | Y | N | 主键 | | |  
+| ID | int(11) | Y | N | | 主键 | |  
 | LOCKED | bit(1) | N | N | | | |  
 | LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
 | LOCKEDBY | varchar(255) | N | Y | NULL | 锁定者 | |  
@@ -807,7 +807,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | AUTHOR | varchar(255) | N | N | | 操作人 | |  
 | FILENAME | varchar(255) | N | N | | 文件名 | |  
 | DATEEXECUTED | datetime | N | N | | 执行时间 | |  
@@ -852,7 +852,7 @@ CREATE TABLE `ACT_DMN_DATABASECHANGELOG` (
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID | int(11) | Y | N | 主键 | | |  
+| ID | int(11) | Y | N | | 主键 | |  
 | LOCKED | bit(1) | N | N | | | |  
 | LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
 | LOCKEDBY | varchar(255) | N | Y | NULL | 锁定者 | |  
@@ -887,7 +887,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
 | VERSION_ | int(11) | N | Y | NULL | | |  
 | KEY_ | varchar(255) | N | Y | NULL | | |  
@@ -934,7 +934,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
 | CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | |  
 | DEPLOY_TIME_ | datetime | N | Y | NULL | | |  
@@ -973,7 +973,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
 | DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
 | RESOURCE_BYTES_ | varchar(255) | N | Y | NULL | | |  
@@ -1008,7 +1008,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | 主键 | | |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
 | DECISION_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
 | DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
 | START_TIME_ | datetime | N | Y | NULL | 开始时间 | |  
