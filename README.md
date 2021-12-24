@@ -1054,3 +1054,64 @@ ALTER TABLE `ACT_DMN_HI_DECISION_EXECUTION`
   ADD PRIMARY KEY (`ID_`);
 COMMIT;
 ~~~
+
+## ACT_EVT_LOG
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| LOG_NR_ | bigint(20) | Y | N | | 主键 | |  
+| TYPE_ | varchar(64) | N | Y | NULL | | |  
+| PROC_DEF_ID_ | varchar(64) | N | Y | NULL | | |  
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | | |  
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | | |  
+| TASK_ID_ | varchar(64) | N | Y | NULL | | |  
+| TIME_STAMP_ | timestamp(3) | N | N | | 时间戳 | |  
+| USER_ID_ | varchar(255) | N | Y | NULL | | |  
+| DATA_ | longblob | N | Y | NULL | | |  
+| LOCK_OWNER_ | varchar(255) | N | Y | NULL | | |  
+| LOCK_TIME_ | timestamp(3) | N | Y | NULL | | |  
+| IS_PROCESSED_ | tinyint(4) | N | Y | 0 | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_EVT_LOG`
+--
+
+CREATE TABLE `ACT_EVT_LOG` (
+  `LOG_NR_` bigint(20) NOT NULL,
+  `TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TIME_STAMP_` timestamp(3) NOT NULL,
+  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `DATA_` longblob,
+  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LOCK_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `IS_PROCESSED_` tinyint(4) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_EVT_LOG`
+--
+ALTER TABLE `ACT_EVT_LOG`
+  ADD PRIMARY KEY (`LOG_NR_`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `ACT_EVT_LOG`
+--
+ALTER TABLE `ACT_EVT_LOG`
+  MODIFY `LOG_NR_` bigint(20) NOT NULL AUTO_INCREMENT;
+COMMIT;
+~~~
