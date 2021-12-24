@@ -802,3 +802,255 @@ ALTER TABLE `ACT_CO_DATABASECHANGELOGLOCK`
   ADD PRIMARY KEY (`ID`);
 COMMIT;
 ~~~
+
+## ACT_DMN_DATABASECHANGELOG
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| AUTHOR | varchar(255) | N | N | | 操作人 | |  
+| FILENAME | varchar(255) | N | N | | 文件名 | |  
+| DATEEXECUTED | datetime | N | N | | 执行时间 | |  
+| ORDEREXECUTED | int(11) | N | N | | 执行顺序 | |  
+| EXECTYPE | varchar(10) | N | N | | | |  
+| MD5SUM | varchar(35) | N | N | | | |  
+| DESCRIPTION | varchar(255) | N | Y | NULL | 描述 | |  
+| COMMENTS | varchar(255) | N | Y | NULL | | |  
+| TAG | varchar(255) | N | Y | NULL | 标签 | |  
+| LIQUIBASE | varchar(20) | N | Y | NULL | | |  
+| CONTEXTS | varchar(255) | N | Y | NULL | | |  
+| LABELS | varchar(255) | N | Y | NULL | 标签 | |  
+| DEPLOYMENT_ID | varchar(10) | N | Y | NULL | | |  
+
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_DMN_DATABASECHANGELOG`
+--
+
+CREATE TABLE `ACT_DMN_DATABASECHANGELOG` (
+  `ID` varchar(255) NOT NULL,
+  `AUTHOR` varchar(255) NOT NULL,
+  `FILENAME` varchar(255) NOT NULL,
+  `DATEEXECUTED` datetime NOT NULL,
+  `ORDEREXECUTED` int(11) NOT NULL,
+  `EXECTYPE` varchar(10) NOT NULL,
+  `MD5SUM` varchar(35) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `COMMENTS` varchar(255) DEFAULT NULL,
+  `TAG` varchar(255) DEFAULT NULL,
+  `LIQUIBASE` varchar(20) DEFAULT NULL,
+  `CONTEXTS` varchar(255) DEFAULT NULL,
+  `LABELS` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+~~~
+
+## ACT_DMN_DATABASECHANGELOGLOCK
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID | int(11) | Y | N | 主键 | | |  
+| LOCKED | bit(1) | N | N | | | |  
+| LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
+| LOCKEDBY | varchar(255) | N | Y | NULL | 锁定者 | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_DMN_DATABASECHANGELOGLOCK`
+--
+
+CREATE TABLE `ACT_DMN_DATABASECHANGELOGLOCK` (
+  `ID` int(11) NOT NULL,
+  `LOCKED` bit(1) NOT NULL,
+  `LOCKGRANTED` datetime DEFAULT NULL,
+  `LOCKEDBY` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_DMN_DATABASECHANGELOGLOCK`
+--
+ALTER TABLE `ACT_DMN_DATABASECHANGELOGLOCK`
+  ADD PRIMARY KEY (`ID`);
+COMMIT;
+~~~
+
+## ACT_DMN_DECISION_TABLE
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
+| VERSION_ | int(11) | N | Y | NULL | | |  
+| KEY_ | varchar(255) | N | Y | NULL | | |  
+| CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | |  
+| DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
+| PARENT_DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
+| TENANT_ID_ | varchar(255) | N | Y | NULL | | |  
+| RESOURCE_NAME_ | varchar(255) | N | Y | NULL | | |  
+| DESCRIPTION_ | varchar(255) | N | Y | NULL | 描述 | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_DMN_DECISION_TABLE`
+--
+
+CREATE TABLE `ACT_DMN_DECISION_TABLE` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `VERSION_` int(11) DEFAULT NULL,
+  `KEY_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `PARENT_DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `RESOURCE_NAME_` varchar(255) DEFAULT NULL,
+  `DESCRIPTION_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_DMN_DECISION_TABLE`
+--
+ALTER TABLE `ACT_DMN_DECISION_TABLE`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_DMN_DEPLOYMENT
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
+| CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | |  
+| DEPLOY_TIME_ | datetime | N | Y | NULL | | |  
+| TENANT_ID_ | varchar(255) | N | Y | NULL | | |  
+| PARENT_DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_DMN_DEPLOYMENT`
+--
+
+CREATE TABLE `ACT_DMN_DEPLOYMENT` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `DEPLOY_TIME_` datetime DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `PARENT_DEPLOYMENT_ID_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_DMN_DEPLOYMENT`
+--
+ALTER TABLE `ACT_DMN_DEPLOYMENT`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_DMN_DEPLOYMENT_RESOURCE
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
+| DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
+| RESOURCE_BYTES_ | varchar(255) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_DMN_DEPLOYMENT_RESOURCE`
+--
+
+CREATE TABLE `ACT_DMN_DEPLOYMENT_RESOURCE` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `RESOURCE_BYTES_` longblob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_DMN_DEPLOYMENT_RESOURCE`
+--
+ALTER TABLE `ACT_DMN_DEPLOYMENT_RESOURCE`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_DMN_DEPLOYMENT_RESOURCE
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| DECISION_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+| DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
+| START_TIME_ | datetime | N | Y | NULL | 开始时间 | |  
+| END_TIME_ | datetime | N | Y | NULL | 结束时间 | |  
+| INSTANCE_ID_ | varchar(255) | N | Y | NULL | | |  
+| EXECUTION_ID_ | varchar(255) | N | Y | NULL | | |  
+| ACTIVITY_ID_ | varchar(255) | N | Y | NULL | | |  
+| FAILED_ | bit(1) | N | Y | b'0' | | |  
+| TENANT_ID_ | varchar(255) | N | Y | NULL | | |  
+| EXECUTION_JSON_ | longtext | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_DMN_HI_DECISION_EXECUTION`
+--
+
+CREATE TABLE `ACT_DMN_HI_DECISION_EXECUTION` (
+  `ID_` varchar(255) NOT NULL,
+  `DECISION_DEFINITION_ID_` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `START_TIME_` datetime DEFAULT NULL,
+  `END_TIME_` datetime DEFAULT NULL,
+  `INSTANCE_ID_` varchar(255) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(255) DEFAULT NULL,
+  `ACTIVITY_ID_` varchar(255) DEFAULT NULL,
+  `FAILED_` bit(1) DEFAULT b'0',
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `EXECUTION_JSON_` longtext,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_DMN_HI_DECISION_EXECUTION`
+--
+ALTER TABLE `ACT_DMN_HI_DECISION_EXECUTION`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
