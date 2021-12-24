@@ -192,8 +192,8 @@ CREATE TABLE `ACT_CMMN_DATABASECHANGELOG` (
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
 | ID_ | int(11) | Y | N | 主键 | | |  
 | LOCKED | bit(1) | N | N | | | |  
-| LOCKGRANTED | datetime | N | Y | NULL | | |  
-| LOCKEDBY | varchar(255) | N | Y | NULL | | |  
+| LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
+| LOCKEDBY | varchar(255) | N | Y | NULL | 锁定人 | |  
 
 > SQL  
 
@@ -657,5 +657,148 @@ ALTER TABLE `ACT_CMMN_RU_SENTRY_PART_INST`
   ADD CONSTRAINT `ACT_FK_SENTRY_CASE_DEF` FOREIGN KEY (`CASE_DEF_ID_`) REFERENCES `ACT_CMMN_CASEDEF` (`ID_`),
   ADD CONSTRAINT `ACT_FK_SENTRY_CASE_INST` FOREIGN KEY (`CASE_INST_ID_`) REFERENCES `ACT_CMMN_RU_CASE_INST` (`ID_`),
   ADD CONSTRAINT `ACT_FK_SENTRY_PLAN_ITEM` FOREIGN KEY (`PLAN_ITEM_INST_ID_`) REFERENCES `ACT_CMMN_RU_PLAN_ITEM_INST` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_CO_CONTENT_ITEM
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| NAME_ | varchar(255) | N | N | | 名称 | |  
+| MIME_TYPE_ | varchar(255) | N | N | | | |  
+| TASK_ID_ | varchar(255) | N | N | | | |  
+| PROC_INST_ID_ | varchar(255) | N | N | | | |  
+| CONTENT_STORE_ID_ | varchar(255) | N | N | | | |  
+| CONTENT_STORE_NAME_ | varchar(255) | N | N | | | |  
+| FIELD_ | varchar(400) | N | N | | | |  
+| CONTENT_AVAILABLE_ | bit(1) | N | Y | b'0' | | |  
+| CREATED_ | timestamp(6) | N | Y | NULL | 创建时间 | |  
+| CREATED_BY_ | varchar(255) | N | Y | NULL | 创建者 | |  
+| LAST_MODIFIED_ | timestamp(6) | N | Y | NULL | 最新修改时间 | |  
+| LAST_MODIFIED_BY_ | varchar(255) | N | Y | NULL | 最新修改者 | |  
+| CONTENT_SIZE_ | bigint(20) | N | Y | 0 | 内容大小 | |  
+| TENANT_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_CO_CONTENT_ITEM`
+--
+
+CREATE TABLE `ACT_CO_CONTENT_ITEM` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) NOT NULL,
+  `MIME_TYPE_` varchar(255) DEFAULT NULL,
+  `TASK_ID_` varchar(255) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(255) DEFAULT NULL,
+  `CONTENT_STORE_ID_` varchar(255) DEFAULT NULL,
+  `CONTENT_STORE_NAME_` varchar(255) DEFAULT NULL,
+  `FIELD_` varchar(400) DEFAULT NULL,
+  `CONTENT_AVAILABLE_` bit(1) DEFAULT b'0',
+  `CREATED_` timestamp(6) NULL DEFAULT NULL,
+  `CREATED_BY_` varchar(255) DEFAULT NULL,
+  `LAST_MODIFIED_` timestamp(6) NULL DEFAULT NULL,
+  `LAST_MODIFIED_BY_` varchar(255) DEFAULT NULL,
+  `CONTENT_SIZE_` bigint(20) DEFAULT '0',
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_CO_CONTENT_ITEM`
+--
+ALTER TABLE `ACT_CO_CONTENT_ITEM`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `idx_contitem_taskid` (`TASK_ID_`),
+  ADD KEY `idx_contitem_procid` (`PROC_INST_ID_`),
+  ADD KEY `idx_contitem_scope` (`SCOPE_ID_`,`SCOPE_TYPE_`);
+COMMIT;
+~~~
+
+## ACT_CO_DATABASECHANGELOG
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | 主键 | | |  
+| AUTHOR | varchar(255) | N | N | | 操作人 | |  
+| FILENAME | varchar(255) | N | N | | 文件名 | |  
+| DATEEXECUTED | datetime | N | N | | 执行时间 | |  
+| ORDEREXECUTED | int(11) | N | N | | 执行顺序 | |  
+| EXECTYPE | varchar(10) | N | N | | | |  
+| MD5SUM | varchar(35) | N | N | | | |  
+| DESCRIPTION | varchar(255) | N | Y | NULL | 描述 | |  
+| COMMENTS | varchar(255) | N | Y | NULL | | |  
+| TAG | varchar(255) | N | Y | NULL | 标签 | |  
+| LIQUIBASE | varchar(20) | N | Y | NULL | | |  
+| CONTEXTS | varchar(255) | N | Y | NULL | | |  
+| LABELS | varchar(255) | N | Y | NULL | 标签 | |  
+| DEPLOYMENT_ID | varchar(10) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_CO_DATABASECHANGELOG`
+--
+
+CREATE TABLE `ACT_CO_DATABASECHANGELOG` (
+  `ID` varchar(255) NOT NULL,
+  `AUTHOR` varchar(255) NOT NULL,
+  `FILENAME` varchar(255) NOT NULL,
+  `DATEEXECUTED` datetime NOT NULL,
+  `ORDEREXECUTED` int(11) NOT NULL,
+  `EXECTYPE` varchar(10) NOT NULL,
+  `MD5SUM` varchar(35) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `COMMENTS` varchar(255) DEFAULT NULL,
+  `TAG` varchar(255) DEFAULT NULL,
+  `LIQUIBASE` varchar(20) DEFAULT NULL,
+  `CONTEXTS` varchar(255) DEFAULT NULL,
+  `LABELS` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+~~~
+
+## ACT_CO_DATABASECHANGELOG
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID | int(11) | Y | N | 主键 | | |  
+| LOCKED | bit(1) | N | N | | | |  
+| LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
+| LOCKEDBY | varchar(255) | N | Y | NULL | 锁定者 | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_CO_DATABASECHANGELOGLOCK`
+--
+
+CREATE TABLE `ACT_CO_DATABASECHANGELOGLOCK` (
+  `ID` int(11) NOT NULL,
+  `LOCKED` bit(1) NOT NULL,
+  `LOCKGRANTED` datetime DEFAULT NULL,
+  `LOCKEDBY` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_CO_DATABASECHANGELOGLOCK`
+--
+ALTER TABLE `ACT_CO_DATABASECHANGELOGLOCK`
+  ADD PRIMARY KEY (`ID`);
 COMMIT;
 ~~~
