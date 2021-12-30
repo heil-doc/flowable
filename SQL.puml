@@ -19,7 +19,7 @@ map ACT_CMMN_CASEDEF {
 }
 
 map ACT_CMMN_DATABASECHANGELOG {
-  ID => 主键
+  ID => ID
   AUTHOR => 操作人
   FILENAME => 文件名
   DATEEXECUTED => 执行时间
@@ -192,7 +192,7 @@ map ACT_CO_CONTENT_ITEM {
 }
 
 map ACT_CO_DATABASECHANGELOG {
-  ID => 主键
+  ID => ID
   AUTHOR => 操作人
   FILENAME => 文件名
   DATEEXECUTED => 执行时间
@@ -216,7 +216,7 @@ map ACT_CO_DATABASECHANGELOGLOCK {
 }
 
 map ACT_DMN_DATABASECHANGELOG {
-  ID => 主键
+  ID => ID
   AUTHOR => 操作人
   FILENAME => 文件名
   DATEEXECUTED => 执行时间
@@ -293,4 +293,74 @@ map ACT_EVT_LOG {
   LOCK_TIME_ => 
   IS_PROCESSED_ => 
 }
+
+map ACT_FO_DATABASECHANGELOG {
+  ID => ID
+  AUTHOR => 操作人
+  FILENAME => 文件名
+  DATEEXECUTED => 执行时间
+  ORDEREXECUTED => 执行顺序
+  EXECTYPE => 
+  MD5SUM => 
+  DESCRIPTION => 描述
+  COMMENTS => 
+  TAG => 标签
+  LIQUIBASE =>
+  CONTEXTS => 
+  LABELS => 标签
+  DEPLOYMENT_ID => 
+}
+
+map ACT_FO_DATABASECHANGELOGLOCK {
+  ID => 主键
+  LOCKED => 
+  LOCKGRANTED => 锁定时间
+  LOCKEDBY => 锁定者
+}
+
+map ACT_FO_FORM_DEFINITION {
+  ID_ => 主键
+  NAME_ => 名称
+  VERSION_ => 
+  KEY_ => 
+  CATEGORY_ => 类别
+  DEPLOYMENT_ID_ => 
+  PARENT_DEPLOYMENT_ID_ => 
+  TENANT_ID_ => 
+  RESOURCE_NAME_ => 
+  DESCRIPTION_ => 
+}
+
+map ACT_FO_FORM_DEFINITION {
+    ID_ => 主键
+    NAME_ => 名称
+    CATEGORY_ => 类别
+    DEPLOY_TIME_ => 
+    TENANT_ID_ => 
+    PARENT_DEPLOYMENT_ID_ => 
+}
+
+map ACT_FO_FORM_INSTANCE {
+    ID_ => 主键
+    FORM_DEFINITION_ID_ => 关联ACT_FO_FORM_DEFINITION表ID
+    PROC_INST_ID_ => 
+    PROC_DEF_ID_ => 
+    SUBMITTED_DATE_ =>
+    SUBMITTED_BY_ => 
+    FORM_VALUES_ID_ => 
+    TENANT_ID_ => 
+    SCOPE_ID_ => 
+    SCOPE_TYPE_ =>
+    SCOPE_DEFINITION_ID_ => 
+}
+
+map ACT_FO_FORM_RESOURCE {
+    ID_ => 主键
+    NAME_ => 名称
+    DEPLOYMENT_ID_ => 
+    RESOURCE_BYTES_ => 
+}
+
+ACT_FO_FORM_INSTANCE::FORM_DEFINITION_ID_ --> ACT_FO_FORM_DEFINITION::ID_
+
 @enduml

@@ -146,7 +146,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | | 主键 | |  
+| ID | varchar(255) | N | N | | | |  
 | AUTHOR | varchar(255) | N | N | | 操作人 | |  
 | FILENAME | varchar(255) | N | N | | 文件名 | |  
 | DATEEXECUTED | datetime | N | N | | 执行时间 | |
@@ -728,7 +728,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | | 主键 | |  
+| ID | varchar(255) | N | N | | | |  
 | AUTHOR | varchar(255) | N | N | | 操作人 | |  
 | FILENAME | varchar(255) | N | N | | 文件名 | |  
 | DATEEXECUTED | datetime | N | N | | 执行时间 | |  
@@ -807,7 +807,7 @@ COMMIT;
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
-| ID_ | varchar(255) | Y | N | | 主键 | |  
+| ID | varchar(255) | N | N | | | |  
 | AUTHOR | varchar(255) | N | N | | 操作人 | |  
 | FILENAME | varchar(255) | N | N | | 文件名 | |  
 | DATEEXECUTED | datetime | N | N | | 执行时间 | |  
@@ -1113,5 +1113,254 @@ ALTER TABLE `ACT_EVT_LOG`
 --
 ALTER TABLE `ACT_EVT_LOG`
   MODIFY `LOG_NR_` bigint(20) NOT NULL AUTO_INCREMENT;
+COMMIT;
+~~~
+
+## ACT_FO_DATABASECHANGELOG
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID | varchar(255) | N | N | | | |  
+| AUTHOR | varchar(255) | N | N | | 操作人 | |  
+| FILENAME | varchar(255) | N | N | | 文件名 | |  
+| DATEEXECUTED | datetime | N | N | | 执行时间 | |  
+| ORDEREXECUTED | int(11) | N | N | | 执行顺序 | |  
+| EXECTYPE | varchar(10) | N | N | | | |  
+| MD5SUM | varchar(35) | N | N | | | |  
+| DESCRIPTION | varchar(255) | N | Y | NULL | 描述 | |  
+| COMMENTS | varchar(255) | N | Y | NULL | | |  
+| TAG | varchar(255) | N | Y | NULL | 标签 | |  
+| LIQUIBASE | varchar(20) | N | Y | NULL | | |  
+| CONTEXTS | varchar(255) | N | Y | NULL | | |  
+| LABELS | varchar(255) | N | Y | NULL | 标签 | |  
+| DEPLOYMENT_ID | varchar(10) | N | Y | NULL | | |  
+
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_FO_DATABASECHANGELOG`
+--
+
+CREATE TABLE `ACT_FO_DATABASECHANGELOG` (
+  `ID` varchar(255) NOT NULL,
+  `AUTHOR` varchar(255) NOT NULL,
+  `FILENAME` varchar(255) NOT NULL,
+  `DATEEXECUTED` datetime NOT NULL,
+  `ORDEREXECUTED` int(11) NOT NULL,
+  `EXECTYPE` varchar(10) NOT NULL,
+  `MD5SUM` varchar(35) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `COMMENTS` varchar(255) DEFAULT NULL,
+  `TAG` varchar(255) DEFAULT NULL,
+  `LIQUIBASE` varchar(20) DEFAULT NULL,
+  `CONTEXTS` varchar(255) DEFAULT NULL,
+  `LABELS` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+~~~
+
+## ACT_FO_DATABASECHANGELOGLOCK
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID | int(11) | Y | N | | 主键 | |  
+| LOCKED | bit(1) | N | N | | | |  
+| LOCKGRANTED | datetime | N | Y | NULL | 锁定时间 | |  
+| LOCKEDBY | varchar(255) | N | Y | NULL | 锁定者 | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_FO_DATABASECHANGELOGLOCK`
+--
+
+CREATE TABLE `ACT_FO_DATABASECHANGELOGLOCK` (
+  `ID` int(11) NOT NULL,
+  `LOCKED` bit(1) NOT NULL,
+  `LOCKGRANTED` datetime DEFAULT NULL,
+  `LOCKEDBY` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_FO_DATABASECHANGELOGLOCK`
+--
+ALTER TABLE `ACT_FO_DATABASECHANGELOGLOCK`
+  ADD PRIMARY KEY (`ID`);
+COMMIT;
+~~~
+
+## ACT_FO_FORM_DEFINITION
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
+| VERSION_ | int(11) | N | Y | NULL | | |  
+| KEY_ | varchar(255) | N | Y | NULL | | |  
+| CATEGORY_ | varchar(255) | N | Y | 类别 | | |  
+| DEPLOYMENT_ID_ | varchar(255) | N | Y | | | |  
+| PARENT_DEPLOYMENT_ID_ | varchar(255) | N | Y | | | |  
+| TENANT_ID_ | varchar(255) | N | Y | | | |  
+| RESOURCE_NAME_ | varchar(255) | N | Y | | | |  
+| DESCRIPTION_ | varchar(255) | N | Y | | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_FO_FORM_DEFINITION`
+--
+
+CREATE TABLE `ACT_FO_FORM_DEFINITION` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `VERSION_` int(11) DEFAULT NULL,
+  `KEY_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `PARENT_DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `RESOURCE_NAME_` varchar(255) DEFAULT NULL,
+  `DESCRIPTION_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_FO_FORM_DEFINITION`
+--
+ALTER TABLE `ACT_FO_FORM_DEFINITION`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+
+## ACT_FO_FORM_DEPLOYMENT
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |  
+| CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | |  
+| DEPLOY_TIME_ | datetime | N | Y | NULL | | |  
+| TENANT_ID_ | varchar(255) | N | Y | NULL | | |  
+| PARENT_DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | |  
+
+~~~
+--
+-- 表的结构 `ACT_FO_FORM_DEPLOYMENT`
+--
+
+CREATE TABLE `ACT_FO_FORM_DEPLOYMENT` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `CATEGORY_` varchar(255) DEFAULT NULL,
+  `DEPLOY_TIME_` datetime DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `PARENT_DEPLOYMENT_ID_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_FO_FORM_DEPLOYMENT`
+--
+ALTER TABLE `ACT_FO_FORM_DEPLOYMENT`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_FO_FORM_INSTANCE
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
+| FORM_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+| TASK_ID_ | varchar(255) | N | Y | NULL | | |  
+| PROC_INST_ID_ | varchar(255) | N | Y | NULL | | |  
+| PROC_DEF_ID_ | varchar(255) | N | Y | NULL | | |  
+| SUBMITTED_DATE_ | datetime | N | Y | NULL | | |  
+| SUBMITTED_BY_ | varchar(255)| N | Y | NULL | | |  
+| FORM_VALUES_ID_ | varchar(255)| N | Y | NULL | | |  
+| TENANT_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_FO_FORM_INSTANCE`
+--
+
+CREATE TABLE `ACT_FO_FORM_INSTANCE` (
+  `ID_` varchar(255) NOT NULL,
+  `FORM_DEFINITION_ID_` varchar(255) NOT NULL,
+  `TASK_ID_` varchar(255) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(255) DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(255) DEFAULT NULL,
+  `SUBMITTED_DATE_` datetime DEFAULT NULL,
+  `SUBMITTED_BY_` varchar(255) DEFAULT NULL,
+  `FORM_VALUES_ID_` varchar(255) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_FO_FORM_INSTANCE`
+--
+ALTER TABLE `ACT_FO_FORM_INSTANCE`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_FO_FORM_RESOURCE
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(255) | Y | N | | 主键 | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | | 
+| DEPLOYMENT_ID_ | varchar(255) | N | Y | NULL | | | 
+| RESOURCE_BYTES_ | longblob | N | Y | NULL | | | 
+
+~~~
+--
+-- 表的结构 `ACT_FO_FORM_RESOURCE`
+--
+
+CREATE TABLE `ACT_FO_FORM_RESOURCE` (
+  `ID_` varchar(255) NOT NULL,
+  `NAME_` varchar(255) DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(255) DEFAULT NULL,
+  `RESOURCE_BYTES_` longblob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_FO_FORM_RESOURCE`
+--
+ALTER TABLE `ACT_FO_FORM_RESOURCE`
+  ADD PRIMARY KEY (`ID_`);
 COMMIT;
 ~~~
