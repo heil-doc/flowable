@@ -1607,7 +1607,6 @@ COMMIT;
 
 ## ACT_HI_DETAIL 历史的流程运行中的细节信息
 
-
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
 | ID_ | varchar(64) | Y | N | | 主键 | |  
@@ -1665,5 +1664,271 @@ ALTER TABLE `ACT_HI_DETAIL`
   ADD KEY `ACT_IDX_HI_DETAIL_TIME` (`TIME_`),
   ADD KEY `ACT_IDX_HI_DETAIL_NAME` (`NAME_`),
   ADD KEY `ACT_IDX_HI_DETAIL_TASK_ID` (`TASK_ID_`);
+COMMIT;
+~~~
+
+## ACT_HI_IDENTITYLINK  历史的流程运行过程中用户关系
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| GROUP_ID_ | varchar(255) | N | Y | NULL | 组ID | | 
+| TYPE_ | varchar(255) | N | Y | NULL | 类型 | | 
+| USER_ID_ | varchar(255) | N | Y | NULL | 用户ID | | 
+| TASK_ID_ | varchar(64) | N | Y | NULL | 任务ID | | 
+| CREATE_TIME_ | datetime(3) | N | Y | NULL | | | 
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | | 
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | | 
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | | 
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | | 
+
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_IDENTITYLINK`
+--
+
+CREATE TABLE `ACT_HI_IDENTITYLINK` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `GROUP_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `CREATE_TIME_` datetime(3) DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_IDENTITYLINK`
+--
+ALTER TABLE `ACT_HI_IDENTITYLINK`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_HI_IDENT_LNK_USER` (`USER_ID_`),
+  ADD KEY `ACT_IDX_HI_IDENT_LNK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_IDENT_LNK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_IDENT_LNK_TASK` (`TASK_ID_`),
+  ADD KEY `ACT_IDX_HI_IDENT_LNK_PROCINST` (`PROC_INST_ID_`);
+COMMIT;
+~~~
+
+## ACT_HI_PROCINST 历史的流程实例
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | 1 | | | 
+| PROC_INST_ID_ | varchar(64) | N | N | | 流程实例ID | | 
+| BUSINESS_KEY_ | varchar(255) | N | Y | NULL | 业务主键 | | 
+| PROC_DEF_ID_ | varchar(64) | N | N | | 属性ID | | 
+| START_TIME_ | datetime(3) | N | Y | NULL | 开始时间 | | 
+| END_TIME_ | datetime(3) | N | Y | NULL | 结束时间 | | 
+| DURATION_ | bigint(20) | N | Y | NULL | 耗时 | | 
+| START_USER_ID_ | varchar(255) | N | Y | NULL | 起始人ID | | 
+| START_ACT_ID_ | varchar(255) | N | Y | NULL | 起始节点 | | 
+| END_ACT_ID_ | varchar(255) | N | Y | NULL | 结束节点 | | 
+| SUPER_PROCESS_INSTANCE_ID_ | varchar(64) | N | Y | NULL | 父流程实例ID | | 
+| DELETE_REASON_ | varchar(4000) | N | Y | NULL | 删除原因 | | 
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | | 
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | | 
+| CALLBACK_ID_ | varchar(255) | N | Y | NULL | | | 
+| CALLBACK_TYPE_ | varchar(255) | N | Y | NULL | | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_PROCINST`
+--
+
+CREATE TABLE `ACT_HI_PROCINST` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT '1',
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `BUSINESS_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `START_TIME_` datetime(3) NOT NULL,
+  `END_TIME_` datetime(3) DEFAULT NULL,
+  `DURATION_` bigint(20) DEFAULT NULL,
+  `START_USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `START_ACT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `END_ACT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUPER_PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CALLBACK_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CALLBACK_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_PROCINST`
+--
+ALTER TABLE `ACT_HI_PROCINST`
+  ADD PRIMARY KEY (`ID_`),
+  ADD UNIQUE KEY `PROC_INST_ID_` (`PROC_INST_ID_`),
+  ADD KEY `ACT_IDX_HI_PRO_INST_END` (`END_TIME_`),
+  ADD KEY `ACT_IDX_HI_PRO_I_BUSKEY` (`BUSINESS_KEY_`);
+COMMIT;
+~~~
+
+## ACT_HI_TASKINST 历史的任务实例表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | 1 | | | 
+| PROC_DEF_ID_ | varchar(64) | N | Y | NULL | 流程定义ID | | 
+| TASK_DEF_ID_| varchar(64) | N | Y | NULL | 任务定义的ID值 | | 
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | | 
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 执行ID | | 
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | | 
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | | 
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | | 
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | | 
+| NAME_| varchar(255) | N | Y | NULL | 名称 | | 
+| PARENT_TASK_ID_ | varchar(64) | N | Y | NULL | 父任务ID | | 
+| DESCRIPTION_ | varchar(4000) | N | Y | NULL | 说明 | | 
+| OWNER_ | varchar(255) | N | Y | NULL | 实际签收人 任务的拥有者 | 签收人（默认为空，只有在委托时才有值） | 
+| ASSIGNEE_ | varchar(255) | N | Y | NULL | 被指派执行该任务的人 | | 
+| START_TIME_ | datetime(3) | N | N | | 开始时间 | | 
+| CLAIM_TIME_ | datetime(3) | N | Y | NULL | 提醒时间 | | 
+| END_TIME_ | datetime(3) | N | Y | NULL | 结束时间 | | 
+| DURATION_ | bigint(20) | N | Y | NULL | 耗时 | | 
+| DELETE_REASON_ | varchar(4000) | N | Y | NULL | 删除原因 | | 
+| PRIORITY_ | int(11) | N | Y | NULL | 优先级别 | | 
+| DUE_DATE_ | datetime(3) | N | Y | NULL | 过期时间 | | 
+| FORM_KEY_ | varchar(255) | N | Y | NULL | 节点定义的formkey | | 
+| CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | | 
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | | 
+| LAST_UPDATED_TIME_ | datetime(3) | N | Y | NULL | | | 
+
+~~~
+
+--
+-- 表的结构 `ACT_HI_TASKINST`
+--
+
+CREATE TABLE `ACT_HI_TASKINST` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT '1',
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_DEF_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PARENT_TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `START_TIME_` datetime(3) NOT NULL,
+  `CLAIM_TIME_` datetime(3) DEFAULT NULL,
+  `END_TIME_` datetime(3) DEFAULT NULL,
+  `DURATION_` bigint(20) DEFAULT NULL,
+  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `PRIORITY_` int(11) DEFAULT NULL,
+  `DUE_DATE_` datetime(3) DEFAULT NULL,
+  `FORM_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `LAST_UPDATED_TIME_` datetime(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_TASKINST`
+--
+ALTER TABLE `ACT_HI_TASKINST`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_HI_TASK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_TASK_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_TASK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_TASK_INST_PROCINST` (`PROC_INST_ID_`);
+COMMIT;
+~~~
+
+## ACT_HI_VARINST 历史的流程运行中的变量信息
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | 1 | 数据版本号 | | 
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | | 
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 执行ID | | 
+| TASK_ID | varchar(64) | N | Y | NULL | 任务ID | | 
+| NAME_ | varchar(255) | N | Y | | 名称 | | 
+| VAR_TYPE_ | varchar(100) | N | Y | NULL | 参数类型 | | 
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | | 
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | | 
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | | 
+| BYTEARRAY_ID_ | varchar(64) | N | Y | NULL | 参数类型 | | 
+| DOUBLE_ | double | N | Y | NULL | 存储double类型数据 | | 
+| LONG_ | bigint(20) | N | Y | NULL | 存储long类型数据 | | 
+| TEXT_ | varchar(4000) | N | Y | NULL | | | 
+| TEXT2_ | varchar(4000) | N | Y | NULL | | | 
+| LAST_UPDATED_TIME_ | datetime(3) | N | Y | NULL | | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_VARINST`
+--
+
+CREATE TABLE `ACT_HI_VARINST` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT '1',
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `VAR_TYPE_` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `BYTEARRAY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DOUBLE_` double DEFAULT NULL,
+  `LONG_` bigint(20) DEFAULT NULL,
+  `TEXT_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TEXT2_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `CREATE_TIME_` datetime(3) DEFAULT NULL,
+  `LAST_UPDATED_TIME_` datetime(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_VARINST`
+--
+ALTER TABLE `ACT_HI_VARINST`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_HI_PROCVAR_NAME_TYPE` (`NAME_`,`VAR_TYPE_`),
+  ADD KEY `ACT_IDX_HI_VAR_SCOPE_ID_TYPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_VAR_SUB_ID_TYPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_HI_PROCVAR_PROC_INST` (`PROC_INST_ID_`),
+  ADD KEY `ACT_IDX_HI_PROCVAR_TASK_ID` (`TASK_ID_`),
+  ADD KEY `ACT_IDX_HI_PROCVAR_EXE` (`EXECUTION_ID_`);
 COMMIT;
 ~~~
