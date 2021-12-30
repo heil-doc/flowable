@@ -1364,3 +1364,86 @@ ALTER TABLE `ACT_FO_FORM_RESOURCE`
   ADD PRIMARY KEY (`ID_`);
 COMMIT;
 ~~~
+
+## ACT_GE_BYTEARRAY 通用的流程定义和流程资源
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | Activiti有可能会被频繁修改数据库表，加入字段，用来表示该数据被操作的次数 | 
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | | 
+| DEPLOYMENT_ID_ | varchar(64) | N | Y | NULL | 部署序号 | 部署序号,一次部署可以部署多个资源,该字段与部署表ACT_RE_DEPLOYMENT的主键关联 | 
+| BYTES_ | longblob | N | Y | NULL | 资源内容 | | 
+| GENERATED_ | tinyint(4) | N | Y | NULL | 是否是由activiti自动产生的资源 | 0:否，1:是 | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_GE_BYTEARRAY`
+--
+
+CREATE TABLE `ACT_GE_BYTEARRAY` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `REV_` int(11) DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `BYTES_` longblob,
+  `GENERATED_` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_GE_BYTEARRAY`
+--
+ALTER TABLE `ACT_GE_BYTEARRAY`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_FK_BYTEARR_DEPL` (`DEPLOYMENT_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_GE_BYTEARRAY`
+--
+ALTER TABLE `ACT_GE_BYTEARRAY`
+  ADD CONSTRAINT `ACT_FK_BYTEARR_DEPL` FOREIGN KEY (`DEPLOYMENT_ID_`) REFERENCES `ACT_RE_DEPLOYMENT` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_GE_PROPERTY 系统相关属性
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| NAME_ | varchar(64) | Y | N | 空字符串 | 属性名称 | 主键 |  
+| VALUE_ | varchar(300) | N | Y | NULL | 属性值 | | 
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_GE_PROPERTY`
+--
+
+CREATE TABLE `ACT_GE_PROPERTY` (
+  `NAME_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `VALUE_` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `REV_` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_GE_PROPERTY`
+--
+ALTER TABLE `ACT_GE_PROPERTY`
+  ADD PRIMARY KEY (`NAME_`);
+COMMIT;
+~~~

@@ -279,7 +279,7 @@ map ACT_DMN_HI_DECISION_EXECUTION{
 ACT_DMN_HI_DECISION_EXECUTION::DEPLOYMENT_ID_ --> ACT_DMN_DEPLOYMENT::ID_
 ACT_DMN_DECISION_TABLE::DEPLOYMENT_ID_ --> ACT_DMN_DEPLOYMENT::ID_
 
-map "ACT_EVT_LOG 事件日志表" as ACT_EVT_LOG {
+map "ACT_EVT_LOG\n事件日志表" as ACT_EVT_LOG {
   LOG_NR_ => 主键
   TYPE_ => 类型
   PROC_DEF_ID_ => 
@@ -362,5 +362,25 @@ map ACT_FO_FORM_RESOURCE {
 }
 
 ACT_FO_FORM_INSTANCE::FORM_DEFINITION_ID_ --> ACT_FO_FORM_DEFINITION::ID_
+
+map "ACT_GE_BYTEARRAY\n通用的流程定义和流程资源"  as ACT_GE_BYTEARRAY {
+    ID_ => 主键
+    REV_ => 数据版本号
+    NAME_ => 名称
+    DEPLOYMENT_ID_ => 部署序号
+    BYTES_ => 资源内容
+    GENERATED_ => 是否是由activiti自动产生的资源
+}
+
+map "ACT_GE_PROPERTY\n系统相关属性"  as ACT_GE_PROPERTY{
+    NAME_ => 名称
+    VALUE_ => 属性值
+    REV_ => 数据版本号
+    GENERATED_ => 是否是由activiti自动产生的资源
+}
+
+
+
+ACT_GE_BYTEARRAY::DEPLOYMENT_ID_ => ACT_RE_DEPLOYMENT::ID_
 
 @enduml
