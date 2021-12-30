@@ -1447,3 +1447,223 @@ ALTER TABLE `ACT_GE_PROPERTY`
   ADD PRIMARY KEY (`NAME_`);
 COMMIT;
 ~~~
+
+## ACT_HI_ACTINST 历史行为表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | 1 | | | 
+| PROC_DEF_ID_ | varchar(64) | N | N | | 流程定义ID | | 
+| PROC_INST_ID_ | varchar(64) | N | N | | 流程实例ID | | 
+| EXECUTION_ID_ | varchar(64) | N | N | | 执行ID | | 
+| ACT_ID_ | varchar(255) | N | N | | 节点实例ID | | 
+| TASK_ID_ | varchar(64) | N | Y | NULL | 任务ID | | 
+| CALL_PROC_INST_ID_ | varchar(64) | N | Y | NULL | 调用外部的流程实例ID | | 
+| ACT_NAME_ | varchar(255) | N | Y | NULL | 节点名称 | | 
+| ACT_TYPE_ | varchar(255) | N | N | | 节点类型 | | 
+| ASSIGNEE_ | varchar(255) | N | Y | NULL | 节点签收人 | | 
+| START_TIME_ | datetime(3) | N | N | | 开始时间 | | 
+| END_TIME_ | datetime(3) | N | Y | NULL | 结束时间 | | 
+| DURATION_ | bigint(20) | N | Y | NULL | 耗时 | | 
+| DELETE_REASON_ | varchar(4000) | N | Y | NULL | 删除原因 | | 
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_ACTINST`
+--
+
+CREATE TABLE `ACT_HI_ACTINST` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT '1',
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `ACT_ID_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `CALL_PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `ACT_NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ACT_TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `START_TIME_` datetime(3) NOT NULL,
+  `END_TIME_` datetime(3) DEFAULT NULL,
+  `DURATION_` bigint(20) DEFAULT NULL,
+  `DELETE_REASON_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_ACTINST`
+--
+ALTER TABLE `ACT_HI_ACTINST`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_HI_ACT_INST_START` (`START_TIME_`),
+  ADD KEY `ACT_IDX_HI_ACT_INST_END` (`END_TIME_`),
+  ADD KEY `ACT_IDX_HI_ACT_INST_PROCINST` (`PROC_INST_ID_`,`ACT_ID_`),
+  ADD KEY `ACT_IDX_HI_ACT_INST_EXEC` (`EXECUTION_ID_`,`ACT_ID_`);
+COMMIT;
+~~~
+
+## ACT_HI_ATTACHMENT 附件表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | | 
+| USER_ID | varchar(255) | N | Y | NULL | 用户ID | | 
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | | 
+| DESCRIPTION_ | varchar(4000) | N | Y | NULL | 描述 | | 
+| TYPE_ | varchar(255) | N | Y | NULL | 类型 | | 
+| TASK_ID_ | varchar(64) | N | Y | NULL | 任务ID | | 
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | | 
+| URL_ | varchar(4000) | N | Y | NULL | | | 
+| CONTENT_ID_ | varchar(64) | N | Y | NULL | 字节表的ID | | 
+| TIME_ | datetime(3) | N | Y | NULL | 时间 | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_ATTACHMENT`
+--
+
+CREATE TABLE `ACT_HI_ATTACHMENT` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `URL_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `CONTENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TIME_` datetime(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_ATTACHMENT`
+--
+ALTER TABLE `ACT_HI_ATTACHMENT`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_HI_COMMENT 评论表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| TYPE_ | varchar(255) | N | Y | NULL | 类型:event（事件）、comment（意见） | | 
+| TIME_ | datetime(3) | N | N | | 时间 | | 
+| USER_ID_ | varchar(255) | N | Y | NULL | 用户ID | | 
+| TASK_ID_ | varchar(64) | N | Y | NULL | 任务ID | | 
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | | 
+| ACTION_ | varchar(255) | N | Y | NULL | 行为类型 | | 
+| MESSAGE_ | varchar(4000) | N | Y | NULL | 信息 | 用于存放流程产生的信息，比如审批意见 | 
+| FULL_MSG_ | longblob | N | Y | NULL | 全部内容 | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_COMMENT`
+--
+
+CREATE TABLE `ACT_HI_COMMENT` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TIME_` datetime(3) NOT NULL,
+  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `ACTION_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `MESSAGE_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `FULL_MSG_` longblob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_COMMENT`
+--
+ALTER TABLE `ACT_HI_COMMENT`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_HI_DETAIL 历史的流程运行中的细节信息
+
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| TYPE_ | varchar(255) | N | N | | 类型 | | 
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | | 
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 执行ID | | 
+| TASK_ID_ | varchar(64) | N | Y | NULL | 任务ID | | 
+| ACT_INST_ID_ | varchar(64) | N | Y | NULL | 节点实例ID | | 
+| NAME_ | varchar(255) | N | N | | 名称 | | 
+| VAR_TYPE_ | varchar(255) | N | Y | NULL | 参数类型 | | 
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | | 
+| TIME_ | datetime(3) | N | N | | 时间戳 | | 
+| BYTEARRAY_ID_ | varchar(64) | N | Y | NULL | 字节表ID | | 
+| DOUBLE_ | varchar(64) | N | Y | NULL | 存储变量类型为Double | | 
+| LONG_ | bigint(20) | N | Y | NULL | 存储变量类型为long | | 
+| TEXT_ | varchar(4000) | N | Y | NULL | 存储变量值类型为String | | 
+| TEXT2_ | varchar(4000) | N | Y | NULL | 此处存储的是JPA持久化对象时，才会有值。此值为对象ID | | 
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_HI_DETAIL`
+--
+
+CREATE TABLE `ACT_HI_DETAIL` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `ACT_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `VAR_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `TIME_` datetime(3) NOT NULL,
+  `BYTEARRAY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DOUBLE_` double DEFAULT NULL,
+  `LONG_` bigint(20) DEFAULT NULL,
+  `TEXT_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TEXT2_` varchar(4000) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_HI_DETAIL`
+--
+ALTER TABLE `ACT_HI_DETAIL`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_HI_DETAIL_PROC_INST` (`PROC_INST_ID_`),
+  ADD KEY `ACT_IDX_HI_DETAIL_ACT_INST` (`ACT_INST_ID_`),
+  ADD KEY `ACT_IDX_HI_DETAIL_TIME` (`TIME_`),
+  ADD KEY `ACT_IDX_HI_DETAIL_NAME` (`NAME_`),
+  ADD KEY `ACT_IDX_HI_DETAIL_TASK_ID` (`TASK_ID_`);
+COMMIT;
+~~~
