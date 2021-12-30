@@ -531,4 +531,75 @@ ACT_HI_COMMENT::USER_ID_ --> ACT_ID_USER::ID_
 ACT_HI_IDENTITYLINK::USER_ID_ --> ACT_ID_USER::ID_
 ACT_HI_PROCINST::START_USER_ID_ --> ACT_ID_USER::ID_
 
+map "ACT_ID_BYTEARRAY\n用户二进制数据表" as ACT_ID_BYTEARRAY {
+    ID_ => 主键
+    REV_ => 数据版本号
+    NAME_ => 名称
+    BYTES_ => 二进制字节数据
+}
+
+map "ACT_ID_GROUP\n用户信息组表" as ACT_ID_GROUP {
+    ID_ => 主键
+    REV_ => 数据版本号
+    NAME_ => 名称
+    TYPE_ => 类型
+}
+
+map "ACT_ID_INFO\n用户信息详情表" as ACT_ID_INFO {
+    ID_ => 主键
+    REV_ => 数据版本号
+    USER_ID_ => 对应用户表主键
+    TYPE_ => 信息类型
+    KEY_ => 数据的键
+    VALUE_ => 数据的值
+    PASSWORD_ => 用户密码
+    PARENT_ID_ => 父信息ID
+}
+
+map "ACT_ID_MEMBERSHIP\n用户与用户组关系表" as ACT_ID_MEMBERSHIP {
+    USER_ID_ => 用户ID
+    GROUP_ID_ => 用户组ID
+}
+
+map "ACT_ID_PRIV\n权限表" as ACT_ID_PRIV {
+    ID_ => 主键
+    NAME_ => 名称
+}
+
+map "ACT_ID_PRIV_MAPPING\n用户或组权限关系表" as ACT_ID_PRIV_MAPPING {
+    ID_ => 主键
+    PRIV_ID_ => 权限ID
+    USER_ID_ => 用户ID
+    GROUP_ID_ => 用户组ID
+}
+
+map "ACT_ID_PROPERTY\n用户属性表" as ACT_ID_PROPERTY {
+    NAME_ => 名称
+    VAR_COUNT_ => 值
+    REV_ => 数据版本号
+}
+
+map "ACT_ID_TOKEN\n用户系统登录日志表" as ACT_ID_TOKEN {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TOKEN_VALUE_ => TOKEN值
+    TOKEN_DATE_ => TOKEN时间
+    IP_ADDRESS_ => ID地址
+    USER_AGENT_ => 
+    USER_ID => 用户ID
+    TOKEN_DATA_ => TOKEY数据
+}
+
+map "ACT_ID_USER\n用户表" ACT_ID_USER {
+    ID_ => 主键
+}
+
+ACT_ID_INFO::USER_ID_ --> ACT_ID_USER::ID_
+ACT_ID_MEMBERSHIP::USER_ID_ --> ACT_ID_USER::ID_
+ACT_ID_MEMBERSHIP::GROUP_ID_ --> ACT_ID_GROUP::ID_
+ACT_ID_PRIV_MAPPING::PRIV_ID_ --> ACT_ID_PRIV::ID_
+ACT_ID_PRIV_MAPPING::USER_ID_ --> ACT_ID_USER::ID_
+ACT_ID_PRIV_MAPPING::GROUP_ID_ --> ACT_ID_GROUP::ID_
+ACT_ID_TOKEN::USER_ID_ --> ACT_ID_USER::ID_
+
 @enduml

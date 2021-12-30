@@ -55,7 +55,7 @@ ACT_RU_* : ’RU’表示runtime。这是运行时的表存储着流程变量，
 | ACT_ID_BYTEARRAY | 用户二进制数据表 | |
 | ACT_ID_GROUP | 用户组信息表 | |
 | ACT_ID_INFO | 用户信息详情表 | |
-| ACT_ID_MEMBERSHIP | 用户与用户组组关系表 | |
+| ACT_ID_MEMBERSHIP | 用户与用户组关系表 | |
 | ACT_ID_PRIV | 用户权限表 | |
 | ACT_ID_PRIV_MAPPING | 用户或组权限关系表 | |
 | ACT_ID_PROPERTY | 用户属性表 | |
@@ -1930,5 +1930,360 @@ ALTER TABLE `ACT_HI_VARINST`
   ADD KEY `ACT_IDX_HI_PROCVAR_PROC_INST` (`PROC_INST_ID_`),
   ADD KEY `ACT_IDX_HI_PROCVAR_TASK_ID` (`TASK_ID_`),
   ADD KEY `ACT_IDX_HI_PROCVAR_EXE` (`EXECUTION_ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_BYTEARRAY 用户二进制数据表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |
+| BYTES_ | longblob | N | Y | NULL | 二进制字节数据 | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_BYTEARRAY`
+--
+
+CREATE TABLE `ACT_ID_BYTEARRAY` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `REV_` int(11) DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `BYTES_` longblob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_BYTEARRAY`
+--
+ALTER TABLE `ACT_ID_BYTEARRAY`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_GROUP 用户组信息表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |
+| TYPE_ | varchar(255) | N | Y | NULL | 类型 | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_GROUP`
+--
+
+CREATE TABLE `ACT_ID_GROUP` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `REV_` int(11) DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_GROUP`
+--
+ALTER TABLE `ACT_ID_GROUP`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_INFO 用户信息详情表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| USER_ID_ | varchar(64) | N | Y | NULL | 对应用户表主键 | |
+| TYPE_ | varchar(64) | N | Y | NULL | 信息类型 | 当前可以设置用户帐号(account)、用户信息(userinfo)和NULL三种值 |
+| KEY_ | varchar(255) | N | Y | NULL | 数据的键 | |
+| VALUE_ | varchar(255) | N | Y | NULL | 数据的值 | |
+| PASSWORD_ | longblob | N | Y | NULL | 用户密码 | |
+| PARENT_ID_ | varchar(255) | N | Y | NULL | 父信息ID | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_INFO`
+--
+
+CREATE TABLE `ACT_ID_INFO` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `REV_` int(11) DEFAULT NULL,
+  `USER_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TYPE_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `VALUE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PASSWORD_` longblob,
+  `PARENT_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_INFO`
+--
+ALTER TABLE `ACT_ID_INFO`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_MEMBERSHIP 用户与用户组关系表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| USER_ID_ | varchar(64) | Y | N | 空字符串 | | |  
+| GROUP_ID_ | varchar(64) | N | N | 空字符串 | | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_MEMBERSHIP`
+--
+
+CREATE TABLE `ACT_ID_MEMBERSHIP` (
+  `USER_ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `GROUP_ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_MEMBERSHIP`
+--
+ALTER TABLE `ACT_ID_MEMBERSHIP`
+  ADD PRIMARY KEY (`USER_ID_`,`GROUP_ID_`),
+  ADD KEY `ACT_FK_MEMB_GROUP` (`GROUP_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_ID_MEMBERSHIP`
+--
+ALTER TABLE `ACT_ID_MEMBERSHIP`
+  ADD CONSTRAINT `ACT_FK_MEMB_GROUP` FOREIGN KEY (`GROUP_ID_`) REFERENCES `ACT_ID_GROUP` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_MEMB_USER` FOREIGN KEY (`USER_ID_`) REFERENCES `ACT_ID_USER` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_PRIV 权限表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| NAME_ | varchar(255) | N | N | | 名称 | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_PRIV`
+--
+
+CREATE TABLE `ACT_ID_PRIV` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_PRIV`
+--
+ALTER TABLE `ACT_ID_PRIV`
+  ADD PRIMARY KEY (`ID_`),
+  ADD UNIQUE KEY `ACT_UNIQ_PRIV_NAME` (`NAME_`);
+COMMIT;
+~~~
+
+## ACT_ID_PRIV_MAPPING 用户或组权限关系表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| PRIV_ID_ | varchar(64) | N | N | | 权限ID | |
+| USER_ID_ | varchar(255) | N | N | | 用户ID | |
+| GROUP_ID_ | varchar(255) | N | N | | 用户组ID | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_PRIV_MAPPING`
+--
+
+CREATE TABLE `ACT_ID_PRIV_MAPPING` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `PRIV_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `GROUP_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_PRIV_MAPPING`
+--
+ALTER TABLE `ACT_ID_PRIV_MAPPING`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_FK_PRIV_MAPPING` (`PRIV_ID_`),
+  ADD KEY `ACT_IDX_PRIV_USER` (`USER_ID_`),
+  ADD KEY `ACT_IDX_PRIV_GROUP` (`GROUP_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_ID_PRIV_MAPPING`
+--
+ALTER TABLE `ACT_ID_PRIV_MAPPING`
+  ADD CONSTRAINT `ACT_FK_PRIV_MAPPING` FOREIGN KEY (`PRIV_ID_`) REFERENCES `ACT_ID_PRIV` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_PROPERTY 用户属性表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| NAME_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| VALUE_ | varchar(300) | N | Y | NULL | | |
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_PROPERTY`
+--
+
+CREATE TABLE `ACT_ID_PROPERTY` (
+  `NAME_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `VALUE_` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `REV_` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_PROPERTY`
+--
+ALTER TABLE `ACT_ID_PROPERTY`
+  ADD PRIMARY KEY (`NAME_`);
+COMMIT;
+~~~
+
+## ACT_ID_TOKEN 用户系统登录日志表 
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| TOKEN_VALUE_ | varchar(255) | N | Y | NULL | | |
+| TOKEN_DATE_ | timestamp(3) | N | Y | NULL | | |
+| IP_ADDRESS_ | varchar(255) | N | Y | NULL | | |
+| USER_AGENT_ | varchar(255) | N | Y | NULL | | |
+| USER_ID_ | varchar(255) | N | Y | NULL | | |
+| TOKEN_DATA_ | varchar(2000) | N | Y | NULL | | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_TOKEN`
+--
+
+CREATE TABLE `ACT_ID_TOKEN` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `TOKEN_VALUE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TOKEN_DATE_` timestamp(3) NULL DEFAULT NULL,
+  `IP_ADDRESS_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `USER_AGENT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `USER_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TOKEN_DATA_` varchar(2000) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_TOKEN`
+--
+ALTER TABLE `ACT_ID_TOKEN`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_ID_USER 用户表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| FIRST_ | varchar(255) | N | Y | NULL | | |
+| LAST_ | varchar(255) | N | Y | NULL | | |
+| EMAIL_ | varchar(255) | N | Y | NULL | | |
+| PWD_ | varchar(255) | N | Y | NULL | | |
+| PICTURE_ID_ | varchar(64) | N | Y | NULL | | |
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_ID_USER`
+--
+
+CREATE TABLE `ACT_ID_USER` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `REV_` int(11) DEFAULT NULL,
+  `FIRST_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `LAST_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `EMAIL_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PWD_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PICTURE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_ID_USER`
+--
+ALTER TABLE `ACT_ID_USER`
+  ADD PRIMARY KEY (`ID_`);
 COMMIT;
 ~~~
