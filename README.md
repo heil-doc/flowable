@@ -35,46 +35,46 @@ ACT_RU_* : ’RU’表示runtime。这是运行时的表存储着流程变量，
 | ACT_DMN_DEPLOYMENT | | |
 | ACT_DMN_DEPLOYMENT_RESOURCE | | |
 | ACT_DMN_HI_DECISION_EXECUTION | | |
-| ACT_EVT_LOG | | |
+| ACT_EVT_LOG | 事件日志表 | |
 | ACT_FO_DATABASECHANGELOG | | |
 | ACT_FO_DATABASECHANGELOGLOCK | | |
 | ACT_FO_FORM_DEFINITION | | |
 | ACT_FO_FORM_DEPLOYMENT | | |
 | ACT_FO_FORM_INSTANCE | | |
 | ACT_FO_FORM_RESOURCE | | |
-| ACT_GE_BYTEARRAY | | |
-| ACT_GE_PROPERTY | | |
-| ACT_HI_ACTINST | | |
-| ACT_HI_ATTACHMENT | | |
-| ACT_HI_COMMENT | | |
-| ACT_HI_DETAIL | | |
-| ACT_HI_IDENTITYLINK | | |
-| ACT_HI_PROCINST | | |
-| ACT_HI_TASKINST | | |
-| ACT_HI_VARINST | | |
-| ACT_ID_BYTEARRAY | | |
-| ACT_ID_GROUP | | |
-| ACT_ID_INFO | | |
-| ACT_ID_MEMBERSHIP | | |
-| ACT_ID_PRIV | | |
-| ACT_ID_PRIV_MAPPING | | |
-| ACT_ID_PROPERTY | | |
-| ACT_ID_TOKEN | | |
-| ACT_ID_USER | | |
-| ACT_PROCDEF_INFO | | |
-| ACT_RE_DEPLOYMENT | | |
-| ACT_RE_MODEL | | |
-| ACT_RE_PROCDEF | | |
-| ACT_RU_DEADLETTER_JOB | | |
-| ACT_RU_EVENT_SUBSCR | | |
-| ACT_RU_EXECUTION | | |
-| ACT_RU_HISTORY_JOB | | |
-| ACT_RU_IDENTITYLINK | | |
-| ACT_RU_JOB | | |
-| ACT_RU_SUSPENDED_JOB | | |
-| ACT_RU_TASK | | |
-| ACT_RU_TIMER_JOB | | |
-| ACT_RU_VARIABLE | | |
+| ACT_GE_BYTEARRAY | 通用的流程定义和流程资源 | |
+| ACT_GE_PROPERTY | 系统相关属性 | |
+| ACT_HI_ACTINST | 历史的行为实例 | |
+| ACT_HI_ATTACHMENT | 历史的流程附件 | |
+| ACT_HI_COMMENT | 历史的说明性信息 | |
+| ACT_HI_DETAIL | 历史的流程运行中的细节信息 | |
+| ACT_HI_IDENTITYLINK | 历史的流程运行过程中用户关系 | |
+| ACT_HI_PROCINST | 历史的流程实例 | |
+| ACT_HI_TASKINST | 历史的任务实例 | |
+| ACT_HI_VARINST | 历史的流程运行中的变量信息 | |
+| ACT_ID_BYTEARRAY | 用户二进制数据表 | |
+| ACT_ID_GROUP | 用户组信息表 | |
+| ACT_ID_INFO | 用户信息详情表 | |
+| ACT_ID_MEMBERSHIP | 用户与用户组组关系表 | |
+| ACT_ID_PRIV | 用户权限表 | |
+| ACT_ID_PRIV_MAPPING | 用户或组权限关系表 | |
+| ACT_ID_PROPERTY | 用户属性表 | |
+| ACT_ID_TOKEN | 用户系统登录日志表 | |
+| ACT_ID_USER | 用户表 | |
+| ACT_PROCDEF_INFO | 流程定义信息 | |
+| ACT_RE_DEPLOYMENT | 已部署单元信息 | |
+| ACT_RE_MODEL | 已部署模型信息 | |
+| ACT_RE_PROCDEF | 已部署的流程定义 | |
+| ACT_RU_DEADLETTER_JOB | 正在运行的任务表 | |
+| ACT_RU_EVENT_SUBSCR | 运行时事件 | |
+| ACT_RU_EXECUTION | 运行时流程执行实例 | |
+| ACT_RU_HISTORY_JOB | 历史作业表 | |
+| ACT_RU_IDENTITYLINK | 运行时用户关系信息 | |
+| ACT_RU_JOB | 运行时作业表 | |
+| ACT_RU_SUSPENDED_JOB | 暂停作业表 | |
+| ACT_RU_TASK | 运行时任务表 | |
+| ACT_RU_TIMER_JOB | 定时作业表 | |
+| ACT_RU_VARIABLE | 运行时变量表 | |
 
 # 三、数据字典
 
@@ -1055,7 +1055,7 @@ ALTER TABLE `ACT_DMN_HI_DECISION_EXECUTION`
 COMMIT;
 ~~~
 
-## ACT_EVT_LOG
+## ACT_EVT_LOG 事件日志表
 
 | 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
