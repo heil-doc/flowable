@@ -62,9 +62,9 @@ ACT_RU_* : ’RU’表示runtime。这是运行时的表存储着流程变量，
 | ACT_ID_TOKEN | 用户系统登录日志表 | |
 | ACT_ID_USER | 用户表 | |
 | ACT_PROCDEF_INFO | 流程定义信息 | |
-| ACT_RE_DEPLOYMENT | 已部署单元信息 | |
-| ACT_RE_MODEL | 已部署模型信息 | |
-| ACT_RE_PROCDEF | 已部署的流程定义 | |
+| ACT_RE_DEPLOYMENT | 署单数据表 | |
+| ACT_RE_MODEL | 流程设计模型部署表 | |
+| ACT_RE_PROCDEF | 流程定义表 | |
 | ACT_RU_DEADLETTER_JOB | 正在运行的任务表 | |
 | ACT_RU_EVENT_SUBSCR | 运行时事件 | |
 | ACT_RU_EXECUTION | 运行时流程执行实例 | |
@@ -2285,5 +2285,231 @@ CREATE TABLE `ACT_ID_USER` (
 --
 ALTER TABLE `ACT_ID_USER`
   ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_PROCDEF_INFO 流程定义信息
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| PROC_DEF_ID_ | varchar(64) | N | N | | 流程定义ID | |
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| INFO_JSON_ID_ | varchar(64) | N | Y | NULL | | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_PROCDEF_INFO`
+--
+
+CREATE TABLE `ACT_PROCDEF_INFO` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `INFO_JSON_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_PROCDEF_INFO`
+--
+ALTER TABLE `ACT_PROCDEF_INFO`
+  ADD PRIMARY KEY (`ID_`),
+  ADD UNIQUE KEY `ACT_UNIQ_INFO_PROCDEF` (`PROC_DEF_ID_`),
+  ADD KEY `ACT_IDX_INFO_PROCDEF` (`PROC_DEF_ID_`),
+  ADD KEY `ACT_FK_INFO_JSON_BA` (`INFO_JSON_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_PROCDEF_INFO`
+--
+ALTER TABLE `ACT_PROCDEF_INFO`
+  ADD CONSTRAINT `ACT_FK_INFO_JSON_BA` FOREIGN KEY (`INFO_JSON_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_INFO_PROCDEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `ACT_RE_PROCDEF` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RE_DEPLOYMENT 部署数据表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |
+| CATEGORY_ | varchar(255) | N | Y | NULL | 类别 | 流程定义的Namespace就是类别 |
+| KEY_ | varchar(255) | N | Y | NULL | 流程定义ID | |
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |
+| DEPLOY_TIME_ | timestamp(3) | N | Y | NULL | 部署时间 | |
+| DERIVED_FROM_ | varchar(64) | N | Y | NULL | | |
+| DERIVED_FROM_ROOT_ | varchar(64) | N | Y | NULL | | |
+| ENGINE_VERSION_ | varchar(255) | N | Y | NULL | 引擎版本 | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RE_DEPLOYMENT`
+--
+
+CREATE TABLE `ACT_RE_DEPLOYMENT` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `DEPLOY_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `DERIVED_FROM_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DERIVED_FROM_ROOT_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `ENGINE_VERSION_` varchar(255) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RE_DEPLOYMENT`
+--
+ALTER TABLE `ACT_RE_DEPLOYMENT`
+  ADD PRIMARY KEY (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RE_MODEL 流程设计模型部署表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| NAME_ | varchar(255) | N | Y | NULL | 名称 | |
+| KEY_ | varchar(255) | N | Y | NULL | | |
+| CATEGORY_ | varchar(255) | N | Y | NULL | 分类 | |
+| CREATE_TIME_ | timestamp(3) | N | Y | NULL | 创建时间 | |
+| LAST_UPDATE_TIME_ | timestamp(3) | N | Y | NULL | 最后更新时间 | |
+| VERSION_ | int(11) | N | Y | NULL | 版本 | |
+| META_INFO_ | varchar(4000) | N | Y | NULL | 以json格式保存流程定义的信息 | |
+| DEPLOYMENT_ID_ | varchar(64) | N | Y | NULL | 部署ID | |
+| EDITOR_SOURCE_VALUE_ID_ | varchar(64) | N | Y | NULL | | |
+| EDITOR_SOURCE_EXTRA_VALUE_ID_ | varchar(64) | N | Y | NULL | | |
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RE_MODEL`
+--
+
+CREATE TABLE `ACT_RE_MODEL` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `LAST_UPDATE_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `VERSION_` int(11) DEFAULT NULL,
+  `META_INFO_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DEPLOYMENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EDITOR_SOURCE_VALUE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EDITOR_SOURCE_EXTRA_VALUE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RE_MODEL`
+--
+ALTER TABLE `ACT_RE_MODEL`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_FK_MODEL_SOURCE` (`EDITOR_SOURCE_VALUE_ID_`),
+  ADD KEY `ACT_FK_MODEL_SOURCE_EXTRA` (`EDITOR_SOURCE_EXTRA_VALUE_ID_`),
+  ADD KEY `ACT_FK_MODEL_DEPLOYMENT` (`DEPLOYMENT_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_RE_MODEL`
+--
+ALTER TABLE `ACT_RE_MODEL`
+  ADD CONSTRAINT `ACT_FK_MODEL_DEPLOYMENT` FOREIGN KEY (`DEPLOYMENT_ID_`) REFERENCES `ACT_RE_DEPLOYMENT` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_MODEL_SOURCE` FOREIGN KEY (`EDITOR_SOURCE_VALUE_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_MODEL_SOURCE_EXTRA` FOREIGN KEY (`EDITOR_SOURCE_EXTRA_VALUE_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RE_PROCDEF 流程定义表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |
+| CATEGORY_ | varchar(255) | N | Y | NULL | 流程定义分类 | 读取xml文件中程的targetNamespace值 |
+| NAME_ | varchar(255) | N | Y | NULL | 流程定义的名称 | 读取流程文件中process元素的name属性 |
+| KEY_ | varchar(255) | N | N | | 流程定义的名称 | 读取流程文件中process元素的id属性 |
+| VERSION_ | int(11) | N | N | | 版本 | |
+| DEPLOYMENT_ID_ | varchar(64) | N | Y | NULL | 部署ID | 流程定义对应的部署数据ID |
+| RESOURCE_NAME_ | varchar(4000) | N | Y | NULL | bpmn文件名称 | 一般为流程文件的相对路径 |
+| DGRM_RESOURCE_NAME_ | varchar(4000) | N | Y | NULL | 流程定义对应的流程图资源名称 | |
+| DESCRIPTION_ | varchar(4000) | N | Y | NULL | 说明 | |
+| HAS_START_FORM_KEY_ | tinyint(4) | N | Y | NULL | 是否存在开始节点formKey | start节点是否存在formKey 0否 1是 |
+| HAS_GRAPHICAL_NOTATION_ | tinyint(4) | N | Y | NULL | | |
+| SUSPENSION_STATE_ | int(11) | N | Y | NULL | 流程定义状态 | 1激活、2中止 |
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |
+| ENGINE_VERSION_ | varchar(255) | N | Y | NULL | 引擎版本 | |
+| DERIVED_FROM_ | varchar(64) | N | Y | NULL | | |
+| DERIVED_FROM_ROOT_ | varchar(64) | N | Y | NULL | | |
+| DERIVED_VERSION_ | int(11) | N | N | 0 | | |
+
+>SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RE_PROCDEF`
+--
+
+CREATE TABLE `ACT_RE_PROCDEF` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `KEY_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `VERSION_` int(11) NOT NULL,
+  `DEPLOYMENT_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `RESOURCE_NAME_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DGRM_RESOURCE_NAME_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `HAS_START_FORM_KEY_` tinyint(4) DEFAULT NULL,
+  `HAS_GRAPHICAL_NOTATION_` tinyint(4) DEFAULT NULL,
+  `SUSPENSION_STATE_` int(11) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `ENGINE_VERSION_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `DERIVED_FROM_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DERIVED_FROM_ROOT_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DERIVED_VERSION_` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RE_PROCDEF`
+--
+ALTER TABLE `ACT_RE_PROCDEF`
+  ADD PRIMARY KEY (`ID_`),
+  ADD UNIQUE KEY `ACT_UNIQ_PROCDEF` (`KEY_`,`VERSION_`,`DERIVED_VERSION_`,`TENANT_ID_`);
 COMMIT;
 ~~~

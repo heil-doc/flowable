@@ -566,6 +566,61 @@ map "ACT_ID_USER\n用户表" as ACT_ID_USER {
     PICTURE_ID_ => 图片ID
 }
 
+map "ACT_PROCDEF_INFO\n流程定义信息" as ACT_PROCDEF_INFO {
+    ID_ => 主键
+    PROC_DEF_ID_ => 流程定义ID
+    REV_ => 数据版本号
+    INFO_JSON_ID_ => 
+}
+
+map "ACT_RE_DEPLOYMENT\n部署数据表" as ACT_RE_DEPLOYMENT {
+    ID_ => 主键
+    NAME_ => 名称
+    CATEGORY_ => 类别
+    KEY_ => 流程定义ID
+    TENANT_ID_ => 
+    DEPLOY_TIME_ => 部署时间
+    DERIVED_FROM_ => 
+    DERIVED_FROM_ROOT_ =>
+    ENGINE_VERSION_ => 引擎版本
+}
+
+map "ACT_RE_MODEL\n流程设计模型部署表" as ACT_RE_MODEL {
+    ID_ => 主键
+    REV_ => 
+    NAME_ => 
+    KEY_ => 
+    CATEGORY_ => 分类
+    CREATE_TIME_ => 创建时间
+    LAST_UPDATE_TIME_ => 最后更新时间
+    VERSION_ => 版本
+    META_INFO_ => 以json格式保存流程定义的信息
+    DEPLOYMENT_ID_ => 部署ID
+    EDITOR_SOURCE_VALUE_ID_ => 
+    EDITOR_SOURCE_EXTRA_VALUE_ID_ => 
+    TENANT_ID_ => 
+}
+
+map "ACT_RE_PROCDEF\n流程定义表" as ACT_RE_PROCDEF {
+    ID_ => 主键
+    REV_ => 数据版本号
+    CATEGORY_ => 流程定义分类
+    NAME_ => 流程定义的名称
+    KEY_ => 流程定义的名称
+    VERSION_ => 版本
+    DEPLOYMENT_ID_ => 部署ID
+    RESOURCE_NAME_ => bpmn文件名称
+    DGRM_RESOURCE_NAME_ => 流程定义对应的流程图资源名称
+    DESCRIPTION_ => 说明
+    HAS_START_FORM_KEY_ =>
+    HAS_GRAPHICAL_NOTATION_ => 是否存在开始节点formKey
+    SUSPENSION_STATE_ =>
+    TENANT_ID_ =>
+    ENGINE_VERSION_ => 引擎版本
+    DERIVED_FROM_ =>
+    DERIVED_FROM_ROOT_ =>
+    DERIVED_VERSION_  =>
+}
 
 ACT_FK_CASE_DEF_DPLY::DEPLOYMENT_ID_ --> ACT_CMMN_DEPLOYMENT::ID_
 ACT_FK_CMMN_RSRC_DPL::DEPLOYMENT_ID_ --> ACT_CMMN_DEPLOYMENT::ID_
