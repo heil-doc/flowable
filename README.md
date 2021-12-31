@@ -2251,11 +2251,11 @@ COMMIT;
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
 | ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
 | REV_ | int(11) | N | Y | NULL | 数据版本号 | |
-| FIRST_ | varchar(255) | N | Y | NULL | | |
-| LAST_ | varchar(255) | N | Y | NULL | | |
-| EMAIL_ | varchar(255) | N | Y | NULL | | |
-| PWD_ | varchar(255) | N | Y | NULL | | |
-| PICTURE_ID_ | varchar(64) | N | Y | NULL | | |
+| FIRST_ | varchar(255) | N | Y | NULL | 名字 | |
+| LAST_ | varchar(255) | N | Y | NULL | | 姓氏 |
+| EMAIL_ | varchar(255) | N | Y | NULL | 邮箱 | |
+| PWD_ | varchar(255) | N | Y | NULL | 用户密码 | |
+| PICTURE_ID_ | varchar(64) | N | Y | NULL | 图片ID | |
 | TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |
 
 > SQL  
