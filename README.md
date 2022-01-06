@@ -70,7 +70,7 @@ ACT_RU_* : ’RU’表示runtime。这是运行时的表存储着流程变量，
 | ACT_RU_EXECUTION | 运行时流程执行实例 | |
 | ACT_RU_HISTORY_JOB | 历史作业表 | |
 | ACT_RU_IDENTITYLINK | 运行时用户关系信息 | |
-| ACT_RU_JOB | 运行时作业表 | |
+| ACT_RU_JOB | 运行时作业表（一般工作表） | |
 | ACT_RU_SUSPENDED_JOB | 暂停作业表 | |
 | ACT_RU_TASK | 运行时任务表 | |
 | ACT_RU_TIMER_JOB | 定时作业表 | |
@@ -2896,5 +2896,465 @@ ALTER TABLE `ACT_RU_IDENTITYLINK`
   ADD CONSTRAINT `ACT_FK_ATHRZ_PROCEDEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `ACT_RE_PROCDEF` (`ID_`),
   ADD CONSTRAINT `ACT_FK_IDL_PROCINST` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
   ADD CONSTRAINT `ACT_FK_TSKASS_TASK` FOREIGN KEY (`TASK_ID_`) REFERENCES `ACT_RU_TASK` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RU_JOB 运行时作业表（一般工作表）
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |  
+| TYPE_ | varchar(255) | N | N | | 类型 | |  
+| LOCK_EXP_TIME_ | timestamp(3) | N | Y | NULL | 锁定释放时间 | |  
+| LOCK_OWNER_ | varchar(255) | N | Y | NULL | 挂起者 | |  
+| EXCLUSIVE_ | tinyint(1) | N | Y | NULL | | |  
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 执行实例ID | |  
+| PROCESS_INSTANCE_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | |  
+| PROC_DEF_ID_ | varchar(64) | N | Y | NULL | 流程定义ID | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+| RETRIES_ | int(11) | N | Y | NULL | | |  
+| EXCEPTION_STACK_ID_ | varchar(64) | N | Y | NULL | 异常信息ID | |  
+| EXCEPTION_MSG_ | varchar(4000) | N | Y | NULL | 异常信息 | |  
+| DUEDATE_ | timestamp(3) | N | Y | NULL | 到期时间 | |  
+| REPEAT_ | varchar(255) | N | Y | NULL | 重复 | |  
+| HANDLER_TYPE_ | varchar(255) | N | Y | NULL | 处理类型 | |  
+| HANDLER_CFG_ | varchar(4000) | N | Y | NULL | | |  
+| CUSTOM_VALUES_ID_| varchar(64) | N | Y | NULL | | |  
+| CREATE_TIME_ | timestamp(3) | N | Y | NULL | | |  
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RU_JOB`
+--
+
+CREATE TABLE `ACT_RU_JOB` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `RETRIES_` int(11) DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
+  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RU_JOB`
+--
+ALTER TABLE `ACT_RU_JOB`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_JOB_EXCEPTION_STACK_ID` (`EXCEPTION_STACK_ID_`),
+  ADD KEY `ACT_IDX_JOB_CUSTOM_VALUES_ID` (`CUSTOM_VALUES_ID_`),
+  ADD KEY `ACT_IDX_JOB_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_JOB_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_JOB_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_FK_JOB_EXECUTION` (`EXECUTION_ID_`),
+  ADD KEY `ACT_FK_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`),
+  ADD KEY `ACT_FK_JOB_PROC_DEF` (`PROC_DEF_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_RU_JOB`
+--
+ALTER TABLE `ACT_RU_JOB`
+  ADD CONSTRAINT `ACT_FK_JOB_CUSTOM_VALUES` FOREIGN KEY (`CUSTOM_VALUES_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `ACT_RE_PROCDEF` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RU_SUSPENDED_JOB 暂停作业表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |  
+| TYPE_ | varchar(255) | N | N | | 类型 | |  
+| EXCLUSIVE_ | tinyint(1) | N | Y | NULL | | |  
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 执行实例ID | |  
+| PROCESS_INSTANCE_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | |  
+| PROC_DEF_ID_ | varchar(64) | N | Y | NULL | 流程定义ID | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+| RETRIES_ | int(11) | N | Y | NULL | | |  
+| EXCEPTION_STACK_ID_ | varchar(64) | N | Y | NULL | 异常信息ID | |  
+| EXCEPTION_MSG_ | varchar(4000) | N | Y | NULL | 异常信息 | |  
+| DUEDATE_ | timestamp(3) | N | Y | NULL | 到期时间 | |  
+| REPEAT_ | varchar(255) | N | Y | NULL | 重复 | |  
+| HANDLER_TYPE_ | varchar(255) | N | Y | NULL | 处理类型 | |  
+| HANDLER_CFG_ | varchar(4000) | N | Y | NULL | | |  
+| CUSTOM_VALUES_ID_ | varchar(64) | N | Y | NULL | | |  
+| CREATE_TIME_ | timestamp(3) | N | Y | NULL | | |  
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RU_SUSPENDED_JOB`
+--
+
+CREATE TABLE `ACT_RU_SUSPENDED_JOB` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `RETRIES_` int(11) DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
+  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RU_SUSPENDED_JOB`
+--
+ALTER TABLE `ACT_RU_SUSPENDED_JOB`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_SUSPENDED_JOB_EXCEPTION_STACK_ID` (`EXCEPTION_STACK_ID_`),
+  ADD KEY `ACT_IDX_SUSPENDED_JOB_CUSTOM_VALUES_ID` (`CUSTOM_VALUES_ID_`),
+  ADD KEY `ACT_IDX_SJOB_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_SJOB_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_SJOB_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_FK_SUSPENDED_JOB_EXECUTION` (`EXECUTION_ID_`),
+  ADD KEY `ACT_FK_SUSPENDED_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`),
+  ADD KEY `ACT_FK_SUSPENDED_JOB_PROC_DEF` (`PROC_DEF_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_RU_SUSPENDED_JOB`
+--
+ALTER TABLE `ACT_RU_SUSPENDED_JOB`
+  ADD CONSTRAINT `ACT_FK_SUSPENDED_JOB_CUSTOM_VALUES` FOREIGN KEY (`CUSTOM_VALUES_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_SUSPENDED_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_SUSPENDED_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_SUSPENDED_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_SUSPENDED_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `ACT_RE_PROCDEF` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RU_TASK  运行时任务表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | 空字符串 | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |  
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 任务所在的执行流ID | |  
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | |  
+| PROC_DEF_ID_ | varchar(64) | N | Y | NULL | 流程定义数据ID | |  
+| TASK_DEF_ID_ | varchar(64) | N | Y | NULL | | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+| NAME_ | varchar(255) | N | Y | NULL | 任务名称 | |  
+| PARENT_TASK_ID_ | varchar(64) | N | Y | NULL | 父任务ID | |  
+| DESCRIPTION_ | varchar(4000) | N | Y | NULL | 说明 | |  
+| TASK_DEF_KEY_ | varchar(255) | N | Y | NULL | 任务定义的ID值 | |  
+| OWNER_ | varchar(255) | N | Y | NULL | 任务拥有人 | |  
+| ASSIGNEE_ | varchar(255) | N | Y | NULL | 被指派执行该任务的人 | |  
+| DELEGATION_ | varchar(64) | N | Y | NULL | | |  
+| PRIORITY_ | int(11) | N | Y | NULL | | |  
+| CREATE_TIME_ | timestamp(3) | N | Y | NULL | 创建时间 | |  
+| DUE_DATE_ | datetime(3) | N | Y | NULL | 耗时 | |  
+| CATEGORY_ | varchar(255) | N | Y | NULL | | |  
+| SUSPENSION_STATE_ | int(11) | N | Y | NULL | 是否挂起 | 1代表激活 2代表挂起 |  
+| TENANT_ID_ | varchar(255) | N | Y | 空字符串 | | |  
+| FORM_KEY_ | varchar(255) | N | Y | NULL | | |  
+| CLAIM_TIME_ | datetime(3) | N | Y | NULL | | |  
+| IS_COUNT_ENABLED_ | tinyint(4) | N | Y | NULL | | |  
+| VAR_COUNT_ | int(11) | N | Y | NULL | | |  
+| ID_LINK_COUNT_ | int(11) | N | Y | NULL | | |  
+| SUB_TASK_COUNT_ | int(11) | N | Y | NULL | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RU_TASK`
+--
+
+CREATE TABLE `ACT_RU_TASK` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `REV_` int(11) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `PARENT_TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DESCRIPTION_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_DEF_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `ASSIGNEE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `DELEGATION_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PRIORITY_` int(11) DEFAULT NULL,
+  `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `DUE_DATE_` datetime(3) DEFAULT NULL,
+  `CATEGORY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUSPENSION_STATE_` int(11) DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT '',
+  `FORM_KEY_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `CLAIM_TIME_` datetime(3) DEFAULT NULL,
+  `IS_COUNT_ENABLED_` tinyint(4) DEFAULT NULL,
+  `VAR_COUNT_` int(11) DEFAULT NULL,
+  `ID_LINK_COUNT_` int(11) DEFAULT NULL,
+  `SUB_TASK_COUNT_` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RU_TASK`
+--
+ALTER TABLE `ACT_RU_TASK`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_TASK_CREATE` (`CREATE_TIME_`),
+  ADD KEY `ACT_IDX_TASK_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_TASK_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_TASK_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_FK_TASK_EXE` (`EXECUTION_ID_`),
+  ADD KEY `ACT_FK_TASK_PROCINST` (`PROC_INST_ID_`),
+  ADD KEY `ACT_FK_TASK_PROCDEF` (`PROC_DEF_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_RU_TASK`
+--
+ALTER TABLE `ACT_RU_TASK`
+  ADD CONSTRAINT `ACT_FK_TASK_EXE` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_TASK_PROCDEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `ACT_RE_PROCDEF` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_TASK_PROCINST` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RU_TIMER_JOB 定时作业表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |  
+| TYPE_ | varchar(255) | N | N | | 类型 | |  
+| LOCK_EXP_TIME_ | timestamp(3) | N | Y | NULL | | |  
+| LOCK_OWNER_ | varchar(255) | N | Y | NULL | | |  
+| EXCLUSIVE_ | tinyint(1) | N | Y | NULL | | |  
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 执行实例ID | |  
+| PROCESS_INSTANCE_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | |  
+| PROC_DEF_ID_ | varchar(64) | N | Y | NULL | 流程定义ID | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_DEFINITION_ID_ | varchar(255) | N | Y | NULL | | |  
+| RETRIES_ | int(11) | N | Y | NULL | | |  
+| EXCEPTION_STACK_ID_ | varchar(64) | N | Y | NULL | 异常信息ID | |  
+| EXCEPTION_MSG_ | varchar(4000) | N | Y | NULL | 异常信息 | |  
+| DUEDATE_ | timestamp(3) | N | Y | NULL | 到期时间 | |  
+| REPEAT_ | varchar(255) | N | Y | NULL | 重复 | |  
+| HANDLER_TYPE_ | varchar(255) | N | Y | NULL | 处理类型 | |  
+| HANDLER_CFG_ | varchar(4000) | N | Y | NULL | | |  
+| CUSTOM_VALUES_ID_ | varchar(64) | N | Y | NULL | | |  
+| CREATE_TIME_ | timestamp(3) | N | Y | NULL | | |  
+| TENANT_ID_ | timestamp(3) | N | Y | 空字符串 | | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RU_TIMER_JOB`
+--
+
+CREATE TABLE `ACT_RU_TIMER_JOB` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `LOCK_OWNER_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `EXCLUSIVE_` tinyint(1) DEFAULT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROCESS_INSTANCE_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_DEF_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_DEFINITION_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `RETRIES_` int(11) DEFAULT NULL,
+  `EXCEPTION_STACK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `EXCEPTION_MSG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
+  `REPEAT_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `HANDLER_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `HANDLER_CFG_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `CUSTOM_VALUES_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
+  `TENANT_ID_` varchar(255) COLLATE utf8_bin DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RU_TIMER_JOB`
+--
+ALTER TABLE `ACT_RU_TIMER_JOB`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_TIMER_JOB_EXCEPTION_STACK_ID` (`EXCEPTION_STACK_ID_`),
+  ADD KEY `ACT_IDX_TIMER_JOB_CUSTOM_VALUES_ID` (`CUSTOM_VALUES_ID_`),
+  ADD KEY `ACT_IDX_TJOB_SCOPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_TJOB_SUB_SCOPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_TJOB_SCOPE_DEF` (`SCOPE_DEFINITION_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_FK_TIMER_JOB_EXECUTION` (`EXECUTION_ID_`),
+  ADD KEY `ACT_FK_TIMER_JOB_PROCESS_INSTANCE` (`PROCESS_INSTANCE_ID_`),
+  ADD KEY `ACT_FK_TIMER_JOB_PROC_DEF` (`PROC_DEF_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_RU_TIMER_JOB`
+--
+ALTER TABLE `ACT_RU_TIMER_JOB`
+  ADD CONSTRAINT `ACT_FK_TIMER_JOB_CUSTOM_VALUES` FOREIGN KEY (`CUSTOM_VALUES_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_TIMER_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_TIMER_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_TIMER_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_TIMER_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `ACT_RE_PROCDEF` (`ID_`);
+COMMIT;
+~~~
+
+## ACT_RU_VARIABLE 运行时变量表
+
+| 字段 | 类型 | 是否为主键 | 是否允许为空 | 默认值 | 说明 | 备注 |  
+| :-- | :-- | :-- | :-- | :-- | :-- | :-- |  
+| ID_ | varchar(64) | Y | N | | 主键 | |  
+| REV_ | int(11) | N | Y | NULL | 数据版本号 | |  
+| TYPE_ | varchar(255) | N | N | | 参数类型 | 可以是基本的类型，也可以用户自行扩展 |  
+| NAME_ | varchar(255) | N | N | | 参数名称 | |  
+| EXECUTION_ID_ | varchar(64) | N | Y | NULL | 参数执行ID | |  
+| PROC_INST_ID_ | varchar(64) | N | Y | NULL | 流程实例ID | |  
+| TASK_ID_ | varchar(64) | N | Y | NULL | 任务ID | |  
+| SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SUB_SCOPE_ID_ | varchar(255) | N | Y | NULL | | |  
+| SCOPE_TYPE_ | varchar(255) | N | Y | NULL | | |  
+| BYTEARRAY_ID_ | varchar(64) | N | Y | NULL | 资源ID | |  
+| DOUBLE_ | double | N | Y | NULL | 参数为double，则保存在该字段中 | |  
+| LONG_ | bigint(20) | N | Y | NULL | 参数为long，则保存在该字段中 | |  
+| TEXT_ | varchar(4000) | N | Y | NULL | 用户保存文本类型的参数值 | |  
+| TEXT2_ | varchar(4000) | N | Y | NULL | 用户保存文本类型的参数值	 | |  
+
+> SQL  
+
+~~~
+--
+-- 表的结构 `ACT_RU_VARIABLE`
+--
+
+CREATE TABLE `ACT_RU_VARIABLE` (
+  `ID_` varchar(64) COLLATE utf8_bin NOT NULL,
+  `REV_` int(11) DEFAULT NULL,
+  `TYPE_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `NAME_` varchar(255) COLLATE utf8_bin NOT NULL,
+  `EXECUTION_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `PROC_INST_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `TASK_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SUB_SCOPE_ID_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `SCOPE_TYPE_` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `BYTEARRAY_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `DOUBLE_` double DEFAULT NULL,
+  `LONG_` bigint(20) DEFAULT NULL,
+  `TEXT_` varchar(4000) COLLATE utf8_bin DEFAULT NULL,
+  `TEXT2_` varchar(4000) COLLATE utf8_bin DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `ACT_RU_VARIABLE`
+--
+ALTER TABLE `ACT_RU_VARIABLE`
+  ADD PRIMARY KEY (`ID_`),
+  ADD KEY `ACT_IDX_RU_VAR_SCOPE_ID_TYPE` (`SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_IDX_RU_VAR_SUB_ID_TYPE` (`SUB_SCOPE_ID_`,`SCOPE_TYPE_`),
+  ADD KEY `ACT_FK_VAR_BYTEARRAY` (`BYTEARRAY_ID_`),
+  ADD KEY `ACT_IDX_VARIABLE_TASK_ID` (`TASK_ID_`),
+  ADD KEY `ACT_FK_VAR_EXE` (`EXECUTION_ID_`),
+  ADD KEY `ACT_FK_VAR_PROCINST` (`PROC_INST_ID_`);
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `ACT_RU_VARIABLE`
+--
+ALTER TABLE `ACT_RU_VARIABLE`
+  ADD CONSTRAINT `ACT_FK_VAR_BYTEARRAY` FOREIGN KEY (`BYTEARRAY_ID_`) REFERENCES `ACT_GE_BYTEARRAY` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_VAR_EXE` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`),
+  ADD CONSTRAINT `ACT_FK_VAR_PROCINST` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `ACT_RU_EXECUTION` (`ID_`);
 COMMIT;
 ~~~

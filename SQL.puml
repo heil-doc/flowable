@@ -725,6 +725,132 @@ map "ACT_RU_IDENTITYLINK\n运行时用户关系信息" as ACT_RU_IDENTITYLINK {
     SCOPE_DEFINITION_ID_ => 
 }
 
+map "ACT_RU_JOB\n运行时作业表（一般工作表）" as ACT_RU_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    LOCK_EXP_TIME_ => 锁定释放时间
+    LOCK_OWNER_ => 挂起者
+    EXCLUSIVE_ => 
+    EXECUTION_ID_ => 执行实例ID
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ => 
+    CUSTOM_VALUES_ID_ => 
+    CREATE_TIME_ => 
+    TENANT_ID_  => 
+}
+
+map "ACT_RU_SUSPENDED_JOB\n暂停作业表" as ACT_RU_SUSPENDED_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    EXCLUSIVE_ => 
+    EXECUTION_ID_ => 执行实例ID
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ => 
+    CUSTOM_VALUES_ID_ => 
+    CREATE_TIME_ => 
+    TENANT_ID_ => 
+}
+
+map "ACT_RU_TASK\n运行时任务表" as ACT_RU_TASK {
+    ID_ =>  主键
+    REV_ => 数据版本号
+    EXECUTION_ID_ => 任务所在的执行流ID	
+    PROC_INST_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义数据ID
+    TASK_DEF_ID_ => 
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    NAME_ => 任务名称
+    PARENT_TASK_ID_ => 父任务ID
+    DESCRIPTION_ => 说明
+    TASK_DEF_KEY_ => 任务定义的ID值
+    OWNER_ => 任务拥有人
+    ASSIGNEE_ => 被指派执行该任务的人
+    DELEGATION_ => 
+    PRIORITY_ => 
+    CREATE_TIME_ => 创建时间
+    DUE_DATE_ => 耗时
+    CATEGORY_ => 
+    SUSPENSION_STATE_ => 是否挂起
+    TENANT_ID_ => 
+    FORM_KEY_ => 
+    CLAIM_TIME_ => 
+    IS_COUNT_ENABLED_ => 
+    VAR_COUNT_ => 
+    ID_LINK_COUNT_ => 
+    SUB_TASK_COUNT_ => 
+}
+
+map "ACT_RU_TIMER_JOB\n定时作业表" as ACT_RU_TIMER_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    LOCK_EXP_TIME_ => 
+    LOCK_OWNER_ => 
+    EXCLUSIVE_ => 
+    EXECUTION_ID_ => 执行实例ID
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ => 
+    CUSTOM_VALUES_ID_ => 
+    CREATE_TIME_ => 
+    TENANT_ID_ => 
+}
+
+map "ACT_RU_VARIABLE\n运行时变量表" as ACT_RU_VARIABLE {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 参数类型
+    NAME_ => 参数名称
+    EXECUTION_ID_ => 参数执行ID
+    PROC_INST_ID_ => 流程实例ID
+    TASK_ID_ => 任务ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    BYTEARRAY_ID_ => 资源ID
+    DOUBLE_ => 参数为double，则保存在该字段中
+    LONG_ => 参数为long，则保存在该字段中
+    TEXT_ => 用户保存文本类型的参数值
+    TEXT2_ => 用户保存文本类型的参数值	
+}
+
 ACT_CMMN_RU_CASE_INST::CASE_DEF_ID_ --> ACT_CMMN_CASEDEF::ID_
 
 ACT_CMMN_RU_MIL_INST::CASE_DEF_ID_ --> ACT_CMMN_CASEDEF::ID_
@@ -786,5 +912,31 @@ ACT_RU_IDENTITYLINK::USER_ID_ --> ACT_ID_USER::ID_
 ACT_RU_IDENTITYLINK::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
 ACT_RU_IDENTITYLINK::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
 ACT_RU_IDENTITYLINK::TASK_ID_ --> ACT_RU_TASK::ID_
+
+ACT_RU_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_JOB::EXECUTION_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_JOB::PROCESS_INSTANCE_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_SUSPENDED_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_SUSPENDED_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_SUSPENDED_JOB::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_SUSPENDED_JOB::PROCESS_INSTANCE_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_SUSPENDED_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_TASK::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_TASK::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+ACT_RU_TASK::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
+
+ACT_RU_TIMER_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_TIMER_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_TIMER_JOB::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_TIMER_JOB::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_TIMER_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_VARIABLE::BYTEARRAY_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_VARIABLE::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_VARIABLE::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
 
 @enduml
