@@ -1,0 +1,978 @@
+@startuml
+' 文档网址：https://plantuml.com/zh/
+' 编辑网址：http://www.plantuml.com/plantuml/uml
+
+map ACT_CMMN_CASEDEF {
+  ID_ => 主键
+  REV_ =>
+  NAME_ => 名称
+  KEY_ =>
+  VERSION_ =>
+  CATEGORY_ =>
+  DEPLOYMENT_ID_ => 关联ACT_CMMN_DEPLOYMENT表ID
+  RESOURCE_NAME_ =>
+  DESCRIPTION_ =>
+  HAS_GRAPHICAL_NOTATION_ =>
+  TENANT_ID_ =>
+  DGRM_RESOURCE_NAME_ =>
+  HAS_START_FORM_KEY_ =>
+}
+
+map ACT_CMMN_DATABASECHANGELOG {
+  ID => ID
+  AUTHOR => 操作人
+  FILENAME => 文件名
+  DATEEXECUTED => 执行时间
+  ORDEREXECUTED => 执行顺序
+  EXECTYPE =>
+  MD5SUM =>
+  DESCRIPTION => 描述
+  COMMENTS =>
+  TAG => 标签
+  LIQUIBASE =>
+  CONTEXTS =>
+  LABELS =>
+  DEPLOYMENT_ID =>
+}
+
+map ACT_CMMN_DATABASECHANGELOGLOCK {
+  ID => 主键
+  LOCKED =>
+  LOCKGRANTED => 锁定时间
+  LOCKEDBY => 锁定者
+}
+
+map ACT_CMMN_DEPLOYMENT {
+  ID_ => 主键
+  NAME_ => 名称
+  CATEGORY_ => 类别
+  KEY_ =>
+  DEPLOY_TIME_ => 布署时间
+  PARENT_DEPLOYMENT_ID_ =>
+  TENANT_ID_ =>
+}
+
+map ACT_CMMN_DEPLOYMENT_RESOURCE {
+  ID_ => 主键
+  NAME_ => 名称
+  DEPLOYMENT_ID_ => 关联ACT_DMN_DEPLOYMENT表ID
+  RESOURCE_BYTES_ => 源码
+  GENERATED_ =>
+}
+
+map ACT_CMMN_HI_CASE_INST {
+  ID_ => 主键
+  REV_ => 
+  BUSINESS_KEY_ => 
+  NAME_ => 名称
+  PARENT_ID_ =>
+  CASE_DEF_ID_ => 
+  STATE_ => 状态
+  START_TIME_ => 开始时间 
+  END_TIME_ => 结束时间
+  START_USER_ID_ =>  开始用户ID
+  CALLBACK_ID_ => 回调ID
+  CALLBACK_TYPE_ => 回调类别
+  TENANT_ID_ =>
+}
+
+map ACT_CMMN_HI_MIL_INST {
+  ID_ => 主键
+  REV_ => 
+  NAME_ => 名称
+  TIME_STAMP_ =>  时间戳
+  CASE_INST_ID_ => 
+  CASE_DEF_ID_ =>
+  ELEMENT_ID_ =>
+}
+
+map ACT_CMMN_RU_CASE_INST {
+  ID_ => 主键
+  REV_ => 
+  BUSINESS_KEY_ => 
+  NAME_ => 名称
+  PARENT_ID_ => 
+  CASE_DEF_ID_ => 
+  STATE_ => 状态
+  START_TIME_ => 开始时间 
+  START_USER_ID_ => 开始用户ID
+  CALLBACK_ID_ => 回调ID
+  CALLBACK_TYPE_ => 回调类型
+  TENANT_ID_ => 
+  LOCK_TIME_ => 
+  IS_COMPLETEABLE_ => 
+}
+
+map ACT_CMMN_RU_MIL_INST {
+  ID_ => 主键
+  NAME_ => 名称
+  TIME_STAMP_ => 时间戳
+  CASE_INST_ID_ => 
+  CASE_DEF_ID_ => 
+  ELEMENT_ID_ => 
+}
+
+map ACT_CMMN_RU_PLAN_ITEM_INST{
+  ID_ => 主键
+  REV_ => 
+  CASE_DEF_ID_ => 关联ACT_CMMN_CASEDEF表ID
+  CASE_INST_ID_ => 关联ACT_CMMN_RU_CASE_INST表ID
+  STAGE_INST_ID_ =>
+  IS_STAGE_ => 
+  ELEMENT_ID_ => 
+  NAME_ => 名称
+  STATE_ => 状态
+  START_TIME_ => 开始时间
+  START_USER_ID_ => 开始用户ID
+  REFERENCE_ID_ =>
+  REFERENCE_TYPE_ => 
+  TENANT_ID_ => 
+  ITEM_DEFINITION_ID_ =>
+  ITEM_DEFINITION_TYPE_ =>
+  IS_COMPLETEABLE_ =>
+  IS_COUNT_ENABLED_ =>
+  VAR_COUNT_ =>
+  SENTRY_PART_INST_COUNT_ =>
+}
+
+map ACT_CMMN_RU_SENTRY_PART_INST {
+  ID_ => 主键
+  REV_ =>
+  CASE_DEF_ID_ => 关联ACT_CMMN_CASEDEF表ID
+  CASE_INST_ID_ => 关联ACT_CMMN_RU_CASE_INST表ID
+  PLAN_ITEM_INST_ID_ => 关联ACT_CMMN_RU_PLAN_ITEM_INST表ID
+  ON_PART_ID_ =>
+  IF_PART_ID_ => 
+  TIME_STAMP_ => 时间戳  
+}
+
+map ACT_CO_CONTENT_ITEM {
+  ID_ => 主键
+  NAME_ => 名称
+  MIME_TYPE_ => 类型
+  TASK_ID_ => 
+  PROC_INST_ID_ => 
+  CONTENT_STORE_ID_ => 
+  CONTENT_STORE_NAME_ => 
+  FIELD_ => 
+  CONTENT_AVAILABLE_ => 
+  CREATED_ => 
+  CREATED_BY_ => 
+  LAST_MODIFIED_ => 
+  LAST_MODIFIED_BY_ => 
+  CONTENT_SIZE_ => 
+  TENANT_ID_ => 
+  SCOPE_ID_ => 
+  SCOPE_TYPE_ => 
+}
+
+map ACT_CO_DATABASECHANGELOG {
+  ID => ID
+  AUTHOR => 操作人
+  FILENAME => 文件名
+  DATEEXECUTED => 执行时间
+  ORDEREXECUTED => 执行顺序
+  EXECTYPE => 
+  MD5SUM => 
+  DESCRIPTION => 描述
+  COMMENTS => 
+  TAG => 标签
+  LIQUIBASE =>
+  CONTEXTS => 
+  LABELS => 标签
+  DEPLOYMENT_ID => 
+}
+
+map ACT_CO_DATABASECHANGELOGLOCK {
+  ID => 主键    
+  LOCKED => 
+  LOCKGRANTED => 锁定时间 
+  LOCKEDBY => 锁定者
+}
+
+map ACT_DMN_DATABASECHANGELOG {
+  ID => ID
+  AUTHOR => 操作人
+  FILENAME => 文件名
+  DATEEXECUTED => 执行时间
+  ORDEREXECUTED => 执行顺序
+  EXECTYPE => 
+  MD5SUM => 
+  DESCRIPTION => 描述
+  COMMENTS => 
+  TAG => 标签
+  LIQUIBASE =>
+  CONTEXTS => 
+  LABELS => 标签
+  DEPLOYMENT_ID => 
+}
+
+map ACT_DMN_DATABASECHANGELOGLOCK {
+  ID => 主键    
+  LOCKED => 
+  LOCKGRANTED => 锁定时间 
+  LOCKEDBY => 锁定者
+}
+
+map ACT_DMN_DECISION_TABLE {
+  ID_ => 主键
+  NAME_ => 名称
+  VERSION_ =>
+  KEY_ =>
+  CATEGORY_ => 类别
+  DEPLOYMENT_ID_ => 
+  PARENT_DEPLOYMENT_ID_ => 
+  TENANT_ID_ => 
+  RESOURCE_NAME_ => 
+  DESCRIPTION_ => 描述
+}
+
+map ACT_DMN_DEPLOYMENT {
+  ID_ => 主键
+  NAME_ => 名称
+  CATEGORY_ => 类别
+  DEPLOY_TIME_ =>
+  TENANT_ID_ => 
+  PARENT_DEPLOYMENT_ID_ => 
+}
+
+map ACT_DMN_HI_DECISION_EXECUTION{
+  ID_ => 主键
+  DECISION_DEFINITION_ID_ => 
+  DEPLOYMENT_ID_ => 
+  START_TIME_ => 开始时间
+  END_TIME_ => 结束时间
+  INSTANCE_ID_ => 
+  EXECUTION_ID_ => 
+  ACTIVITY_ID_ => 
+  FAILED_ => 
+  TENANT_ID_ => 
+  EXECUTION_JSON_ => 
+  SCOPE_TYPE_ => 
+}
+
+map "ACT_EVT_LOG\n事件日志表" as ACT_EVT_LOG {
+  LOG_NR_ => 主键
+  TYPE_ => 类型
+  PROC_DEF_ID_ => 
+  PROC_INST_ID_ => 
+  EXECUTION_ID_ => 
+  TASK_ID_ => 
+  TIME_STAMP_ => 时间戳
+  USER_ID_ => 用户ID
+  DATA_ =>
+  LOCK_OWNER_ =>
+  LOCK_TIME_ => 
+  IS_PROCESSED_ => 
+}
+
+map ACT_FO_DATABASECHANGELOG {
+  ID => ID
+  AUTHOR => 操作人
+  FILENAME => 文件名
+  DATEEXECUTED => 执行时间
+  ORDEREXECUTED => 执行顺序
+  EXECTYPE => 
+  MD5SUM => 
+  DESCRIPTION => 描述
+  COMMENTS => 
+  TAG => 标签
+  LIQUIBASE =>
+  CONTEXTS => 
+  LABELS => 标签
+  DEPLOYMENT_ID => 
+}
+
+map ACT_FO_DATABASECHANGELOGLOCK {
+  ID => 主键
+  LOCKED => 
+  LOCKGRANTED => 锁定时间
+  LOCKEDBY => 锁定者
+}
+
+map ACT_FO_FORM_DEFINITION {
+  ID_ => 主键
+  NAME_ => 名称
+  VERSION_ => 
+  KEY_ => 
+  CATEGORY_ => 类别
+  DEPLOYMENT_ID_ => 
+  PARENT_DEPLOYMENT_ID_ => 
+  TENANT_ID_ => 
+  RESOURCE_NAME_ => 
+  DESCRIPTION_ => 
+}
+
+map ACT_FO_FORM_DEFINITION {
+    ID_ => 主键
+    NAME_ => 名称
+    CATEGORY_ => 类别
+    DEPLOY_TIME_ => 
+    TENANT_ID_ => 
+    PARENT_DEPLOYMENT_ID_ => 
+}
+
+map ACT_FO_FORM_INSTANCE {
+    ID_ => 主键
+    FORM_DEFINITION_ID_ => 关联ACT_FO_FORM_DEFINITION表ID
+    PROC_INST_ID_ => 
+    PROC_DEF_ID_ => 
+    SUBMITTED_DATE_ =>
+    SUBMITTED_BY_ => 
+    FORM_VALUES_ID_ => 
+    TENANT_ID_ => 
+    SCOPE_ID_ => 
+    SCOPE_TYPE_ =>
+    SCOPE_DEFINITION_ID_ => 
+}
+
+map ACT_FO_FORM_RESOURCE {
+    ID_ => 主键
+    NAME_ => 名称
+    DEPLOYMENT_ID_ => 
+    RESOURCE_BYTES_ => 
+}
+
+
+map "ACT_GE_BYTEARRAY\n通用的流程定义和流程资源"  as ACT_GE_BYTEARRAY {
+    ID_ => 主键
+    REV_ => 数据版本号
+    NAME_ => 名称
+    DEPLOYMENT_ID_ => 部署序号
+    BYTES_ => 资源内容
+    GENERATED_ => 是否是由activiti自动产生的资源
+}
+
+map "ACT_GE_PROPERTY\n系统相关属性"  as ACT_GE_PROPERTY{
+    NAME_ => 名称
+    VALUE_ => 属性值
+    REV_ => 数据版本号
+    GENERATED_ => 是否是由activiti自动产生的资源
+}
+
+map "ACT_HI_ACTINST\n历史行为表" as ACT_HI_ACTINST {
+    ID_ => 主键
+    REV_ => 数据版本号
+    PROC_DEF_ID_ => 流程定义ID
+    PROC_INST_ID_ => 流程实例ID
+    EXECUTION_ID_ => 执行ID
+    ACT_ID_ => 节点实例ID
+    TASK_ID_ => 任务ID
+    CALL_PROC_INST_ID_ => 调用外部的流程实例ID
+    ACT_NAME_ => 节点名称
+    ACT_TYPE_ => 节点类型
+    ASSIGNEE_ => 节点签收人
+    START_TIME_ => 开始时间
+    END_TIME_ => 结束时间
+    DURATION_ => 耗时
+    DELETE_REASON_ => 删除原因
+    TENANT_ID_ => 
+}
+
+map "ACT_HI_ATTACHMENT\n附件表" as ACT_HI_ATTACHMENT {
+    ID_ => 主键
+    REV_ => 数据版本号
+    USER_ID_ => 用户ID
+    NAME_ => 名称
+    DESCRIPTION_ => 描述
+    TYPE_ => 类型
+    TASK_ID_ => 任务ID
+    PROC_INST_ID_ => 流程实例ID
+    URL_ => 
+    CONTENT_ID_ => 字节表的ID
+    TIME_ => 时间
+}
+
+map "ACT_HI_COMMENT\n评论表" as ACT_HI_COMMENT {
+    ID_
+    TYPE_ => 类型:event（事件）、comment（意见）
+    TIME_ => 时间
+    USER_ID_ => 用户ID
+    TASK_ID_ => 任务ID
+    PROC_INST_ID_ => 流程实例ID
+    ACTION_ => 行为类型
+    MESSAGE_ => 信息
+    FULL_MSG_ => 全部内容
+}
+
+map "ACT_HI_DETAIL\n历史的流程运行中的细节信息" as ACT_HI_DETAIL {
+    ID_ => 主键
+    TYPE_ => 类型
+    PROC_INST_ID_ => 流程实例ID
+    EXECUTION_ID_ => 执行ID
+    TASK_ID_ => 任务ID
+    ACT_INST_ID_ => 节点实例ID
+    NAME_ => 名称
+    VAR_TYPE_ => 参数类型
+    REV_ => 数据版本号
+    TIME_ => 时间戳
+    BYTEARRAY_ID_ => 字节表ID
+    DOUBLE_ => 存储变量类型为Double
+    LONG_ => 存储变量类型为long
+    TEXT_ => 存储变量值类型为String
+    TEXT2_ => 此处存储的是JPA持久化对象时，才会有值。此值为对象ID
+}
+
+map "ACT_HI_IDENTITYLINK\n历史的流程运行过程中用户关系" as ACT_HI_IDENTITYLINK {
+    ID_ => 主键
+    GROUP_ID_ => 组ID
+    TYPE_ => 类型
+    USER_ID_ => 用户ID
+    TASK_ID_ => 任务ID
+    CREATE_TIME_ =>
+    PROC_INST_ID_ => 流程实例ID
+    SCOPE_ID_ =>
+    SCOPE_TYPE_ =>
+    SCOPE_DEFINITION_ID_  =>  
+}
+
+map "ACT_HI_PROCINST\n历史的流程实例" as ACT_HI_PROCINST {
+    ID_ => 
+    REV_ => 
+    PROC_INST_ID_ => 流程实例ID
+    BUSINESS_KEY_ => 业务主键
+    PROC_DEF_ID_ => 属性ID
+    START_TIME_ => 开始时间
+    END_TIME_ => 结束时间
+    DURATION_ => 耗时
+    START_USER_ID_ => 起始人ID
+    START_ACT_ID_ => 起始节点
+    END_ACT_ID_ => 结束节点
+    SUPER_PROCESS_INSTANCE_ID_ => 父流程实例ID
+    DELETE_REASON_ => 删除原因
+    TENANT_ID_ =>
+    NAME_ => 名称
+    CALLBACK_ID_ =>
+    CALLBACK_TYPE_ =>
+}
+
+map "ACT_HI_TASKINST\n历史的任务实例表" as ACT_HI_TASKINST {
+    ID_ => 主键
+    REV_ => 
+    PROC_DEF_ID_ => 流程定义ID
+    TASK_DEF_ID_ => 任务定义的ID值
+    TASK_DEF_KEY_ => 流程实例ID
+    PROC_INST_ID_ => 执行ID
+    EXECUTION_ID_ => 
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    NAME_ => 名称
+    PARENT_TASK_ID_ => 父任务ID
+    DESCRIPTION_ => 说明
+    OWNER_ => 实际签收人\n任务的拥有者
+    ASSIGNEE_ => 被指派执行该任务的人
+    START_TIME_ => 开始时间
+    CLAIM_TIME_ => 提醒时间
+    END_TIME_ => 结束时间
+    DURATION_ => 耗时
+    DELETE_REASON_ => 删除原因
+    PRIORITY_ => 优先级别
+    DUE_DATE_ => 过期时间
+    FORM_KEY_ => 节点定义的formkey
+    CATEGORY_ => 类别
+    TENANT_ID_ => 
+    LAST_UPDATED_TIME_ =>    
+}
+
+map "ACT_HI_VARINST\n历史的流程运行中的变量信息" as ACT_HI_VARINST {
+    ID_ => 主键
+    REV_ => 数据版本号
+    PROC_INST_ID_ => 流程实例ID
+    EXECUTION_ID_ => 执行ID
+    TASK_ID_ => 任务ID
+    NAME_ => 名称
+    VAR_TYPE_ => 参数类型
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    BYTEARRAY_ID_ => 字节表ID
+    DOUBLE_ => 存储double类型数据
+    LONG_ => 存储long类型数据
+    TEXT_ => 
+    TEXT2_ => 
+    CREATE_TIME_ => 
+    LAST_UPDATED_TIME_ => 
+}
+
+map "ACT_ID_BYTEARRAY\n用户二进制数据表" as ACT_ID_BYTEARRAY {
+    ID_ => 主键
+    REV_ => 数据版本号
+    NAME_ => 名称
+    BYTES_ => 二进制字节数据
+}
+
+map "ACT_ID_GROUP\n用户信息组表" as ACT_ID_GROUP {
+    ID_ => 主键
+    REV_ => 数据版本号
+    NAME_ => 名称
+    TYPE_ => 类型
+}
+
+map "ACT_ID_INFO\n用户信息详情表" as ACT_ID_INFO {
+    ID_ => 主键
+    REV_ => 数据版本号
+    USER_ID_ => 对应用户表主键
+    TYPE_ => 信息类型
+    KEY_ => 数据的键
+    VALUE_ => 数据的值
+    PASSWORD_ => 用户密码
+    PARENT_ID_ => 父信息ID
+}
+
+map "ACT_ID_MEMBERSHIP\n用户与用户组关系表" as ACT_ID_MEMBERSHIP {
+    USER_ID_ => 用户ID
+    GROUP_ID_ => 用户组ID
+}
+
+map "ACT_ID_PRIV\n权限表" as ACT_ID_PRIV {
+    ID_ => 主键
+    NAME_ => 名称
+}
+
+map "ACT_ID_PRIV_MAPPING\n用户或组权限关系表" as ACT_ID_PRIV_MAPPING {
+    ID_ => 主键
+    PRIV_ID_ => 权限ID
+    USER_ID_ => 用户ID
+    GROUP_ID_ => 用户组ID
+}
+
+map "ACT_ID_PROPERTY\n用户属性表" as ACT_ID_PROPERTY {
+    NAME_ => 名称
+    VAR_COUNT_ => 值
+    REV_ => 数据版本号
+}
+
+map "ACT_ID_TOKEN\n用户系统登录日志表" as ACT_ID_TOKEN {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TOKEN_VALUE_ => TOKEN值
+    TOKEN_DATE_ => TOKEN时间
+    IP_ADDRESS_ => ID地址
+    USER_AGENT_ => 
+    USER_ID_ => 用户ID
+    TOKEN_DATA_ => TOKEY数据
+}
+
+
+map "ACT_ID_USER\n用户表" as ACT_ID_USER {
+    ID_ => 主键
+    REV_ => 数据版本号
+    FIRST_ => 名字
+    LAST_ => 姓氏
+    EMAIL_ => 邮箱
+    PWD_ => 密码
+    PICTURE_ID_ => 图片ID
+}
+
+map "ACT_PROCDEF_INFO\n流程定义信息" as ACT_PROCDEF_INFO {
+    ID_ => 主键
+    PROC_DEF_ID_ => 流程定义ID
+    REV_ => 数据版本号
+    INFO_JSON_ID_ => 
+}
+
+map "ACT_RE_DEPLOYMENT\n部署数据表" as ACT_RE_DEPLOYMENT {
+    ID_ => 主键
+    NAME_ => 名称
+    CATEGORY_ => 类别
+    KEY_ => 流程定义ID
+    TENANT_ID_ => 
+    DEPLOY_TIME_ => 部署时间
+    DERIVED_FROM_ => 
+    DERIVED_FROM_ROOT_ =>
+    ENGINE_VERSION_ => 引擎版本
+}
+
+map "ACT_RE_MODEL\n流程设计模型部署表" as ACT_RE_MODEL {
+    ID_ => 主键
+    REV_ => 
+    NAME_ => 
+    KEY_ => 
+    CATEGORY_ => 分类
+    CREATE_TIME_ => 创建时间
+    LAST_UPDATE_TIME_ => 最后更新时间
+    VERSION_ => 版本
+    META_INFO_ => 以json格式保存流程定义的信息
+    DEPLOYMENT_ID_ => 部署ID
+    EDITOR_SOURCE_VALUE_ID_ => 
+    EDITOR_SOURCE_EXTRA_VALUE_ID_ => 
+    TENANT_ID_ => 
+}
+
+map "ACT_RE_PROCDEF\n流程定义表" as ACT_RE_PROCDEF {
+    ID_ => 主键
+    REV_ => 数据版本号
+    CATEGORY_ => 流程定义分类
+    NAME_ => 流程定义的名称
+    KEY_ => 流程定义的名称
+    VERSION_ => 版本
+    DEPLOYMENT_ID_ => 部署ID
+    RESOURCE_NAME_ => bpmn文件名称
+    DGRM_RESOURCE_NAME_ => 流程定义对应的流程图资源名称
+    DESCRIPTION_ => 说明
+    HAS_START_FORM_KEY_ =>
+    HAS_GRAPHICAL_NOTATION_ => 是否存在开始节点formKey
+    SUSPENSION_STATE_ =>
+    TENANT_ID_ =>
+    ENGINE_VERSION_ => 引擎版本
+    DERIVED_FROM_ =>
+    DERIVED_FROM_ROOT_ =>
+    DERIVED_VERSION_  =>
+}
+
+map "ACT_RU_DEADLETTER_JOB\n正在运行的任务表" as ACT_RU_DEADLETTER_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    EXCLUSIVE_ =>
+    EXECUTION_ID_ =>
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ =>
+    SUB_SCOPE_ID_ =>
+    SCOPE_TYPE_ =>
+    SCOPE_DEFINITION_ID_ =>
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ =>
+    CUSTOM_VALUES_ID_ =>
+    CREATE_TIME_ =>
+    TENANT_ID_ =>
+}
+
+map "ACT_RU_EVENT_SUBSCR\n运行时事件表" as ACT_RU_EVENT_SUBSCR {
+    ID_ => 主键
+    REV_ => 数据版本号
+    EVENT_TYPE_ => 类型
+    EVENT_NAME_ => 名称
+    EXECUTION_ID_ => 执行ID
+    PROC_INST_ID_ => 流程定义ID
+    ACTIVITY_ID_ => 具体事件ID
+    CONFIGURATION_ => 事件的配置属性
+    CREATED_ => 创建时间
+    PROC_DEF_ID_ => 属性ID
+    TENANT_ID_ =>  
+}
+
+map "ACT_RU_EXECUTION\n运行时流程执行实例表" as ACT_RU_EXECUTION {
+    ID_ => 主键
+    REV_ =>
+    PROC_INST_ID_ => 流程实例ID
+    BUSINESS_KEY_ => 业务主键ID
+    PARENT_ID_ => 父执行流的ID
+    PROC_DEF_ID_ => 流程定义的数据ID
+    SUPER_EXEC_ =>
+    ROOT_PROC_INST_ID_ =>
+    ACT_ID_ => 节点实例ID
+    IS_ACTIVE_ => 是否激活
+    IS_CONCURRENT_ => 执行流是否正在并行
+    IS_SCOPE_ =>
+    IS_EVENT_SCOPE_ =>
+    IS_MI_ROOT_ =>
+    SUSPENSION_STATE_ => 流程终端状态
+    CACHED_ENT_STATE_ =>
+    TENANT_ID_ =>
+    NAME_ =>
+    START_ACT_ID_ =>
+    START_TIME_ => 开始时间
+    START_USER_ID_ =>
+    LOCK_TIME_ =>
+    IS_COUNT_ENABLED_ =>
+    EVT_SUBSCR_COUNT_ =>
+    TASK_COUNT_ =>
+    JOB_COUNT_ =>
+    TIMER_JOB_COUNT_ =>
+    SUSP_JOB_COUNT_ =>
+    DEADLETTER_JOB_COUNT_ =>
+    VAR_COUNT_ =>
+    ID_LINK_COUNT_ =>
+    CALLBACK_ID_ =>
+    CALLBACK_TYPE_ =>
+}
+
+map "ACT_RU_EXECUTION\n运行时流程执行实例表\n同表联数据" as ACT_RU_EXECUTION2 {
+    ID_ => 主键
+    REV_ =>
+    PROC_INST_ID_ => 流程实例ID
+    BUSINESS_KEY_ => 业务主键ID
+    PARENT_ID_ => 父执行流的ID
+    PROC_DEF_ID_ => 流程定义的数据ID
+    SUPER_EXEC_ =>
+    ROOT_PROC_INST_ID_ =>
+    ACT_ID_ => 节点实例ID
+    IS_ACTIVE_ => 是否激活
+    IS_CONCURRENT_ => 执行流是否正在并行
+    IS_SCOPE_ =>
+    IS_EVENT_SCOPE_ =>
+    IS_MI_ROOT_ =>
+    SUSPENSION_STATE_ => 流程终端状态
+    CACHED_ENT_STATE_ =>
+    TENANT_ID_ =>
+    NAME_ =>
+    START_ACT_ID_ =>
+    START_TIME_ => 开始时间
+    START_USER_ID_ =>
+    LOCK_TIME_ =>
+    IS_COUNT_ENABLED_ =>
+    EVT_SUBSCR_COUNT_ =>
+    TASK_COUNT_ =>
+    JOB_COUNT_ =>
+    TIMER_JOB_COUNT_ =>
+    SUSP_JOB_COUNT_ =>
+    DEADLETTER_JOB_COUNT_ =>
+    VAR_COUNT_ =>
+    ID_LINK_COUNT_ =>
+    CALLBACK_ID_ =>
+    CALLBACK_TYPE_ =>
+}
+
+map "ACT_RU_HISTORY_JOB\n历史作业表" as ACT_RU_HISTORY_JOB {
+    ID_ => 主键
+    REV_ =>  数据版本号
+    LOCK_EXP_TIME_ => 
+    LOCK_OWNER_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ =>
+    EXCEPTION_MSG_ =>
+    HANDLER_TYPE_ =>
+    HANDLER_CFG_ =>
+    CUSTOM_VALUES_ID_ =>
+    ADV_HANDLER_CFG_ID_ =>
+    CREATE_TIME_ =>
+    TENANT_ID_ =>
+}
+
+map "ACT_RU_IDENTITYLINK\n运行时用户关系信息" as ACT_RU_IDENTITYLINK {
+    ID_ => 主键
+    REV_ => 数据版本号
+    GROUP_ID_ => 用户组ID
+    TYPE_ => 关系数据类型
+    USER_ID_ => 用户ID
+    TASK_ID_ => 任务ID
+    PROC_INST_ID_ => 流程定义ID
+    PROC_DEF_ID_ => 属性ID
+    SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+}
+
+map "ACT_RU_JOB\n运行时作业表（一般工作表）" as ACT_RU_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    LOCK_EXP_TIME_ => 锁定释放时间
+    LOCK_OWNER_ => 挂起者
+    EXCLUSIVE_ => 
+    EXECUTION_ID_ => 执行实例ID
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ => 
+    CUSTOM_VALUES_ID_ => 
+    CREATE_TIME_ => 
+    TENANT_ID_  => 
+}
+
+map "ACT_RU_SUSPENDED_JOB\n暂停作业表" as ACT_RU_SUSPENDED_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    EXCLUSIVE_ => 
+    EXECUTION_ID_ => 执行实例ID
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ => 
+    CUSTOM_VALUES_ID_ => 
+    CREATE_TIME_ => 
+    TENANT_ID_ => 
+}
+
+map "ACT_RU_TASK\n运行时任务表" as ACT_RU_TASK {
+    ID_ =>  主键
+    REV_ => 数据版本号
+    EXECUTION_ID_ => 任务所在的执行流ID	
+    PROC_INST_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义数据ID
+    TASK_DEF_ID_ => 
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    NAME_ => 任务名称
+    PARENT_TASK_ID_ => 父任务ID
+    DESCRIPTION_ => 说明
+    TASK_DEF_KEY_ => 任务定义的ID值
+    OWNER_ => 任务拥有人
+    ASSIGNEE_ => 被指派执行该任务的人
+    DELEGATION_ => 
+    PRIORITY_ => 
+    CREATE_TIME_ => 创建时间
+    DUE_DATE_ => 耗时
+    CATEGORY_ => 
+    SUSPENSION_STATE_ => 是否挂起
+    TENANT_ID_ => 
+    FORM_KEY_ => 
+    CLAIM_TIME_ => 
+    IS_COUNT_ENABLED_ => 
+    VAR_COUNT_ => 
+    ID_LINK_COUNT_ => 
+    SUB_TASK_COUNT_ => 
+}
+
+map "ACT_RU_TIMER_JOB\n定时作业表" as ACT_RU_TIMER_JOB {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 类型
+    LOCK_EXP_TIME_ => 
+    LOCK_OWNER_ => 
+    EXCLUSIVE_ => 
+    EXECUTION_ID_ => 执行实例ID
+    PROCESS_INSTANCE_ID_ => 流程实例ID
+    PROC_DEF_ID_ => 流程定义ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    SCOPE_DEFINITION_ID_ => 
+    RETRIES_ => 
+    EXCEPTION_STACK_ID_ => 异常信息ID
+    EXCEPTION_MSG_ => 异常信息
+    DUEDATE_ => 到期时间
+    REPEAT_ => 重复
+    HANDLER_TYPE_ => 处理类型
+    HANDLER_CFG_ => 
+    CUSTOM_VALUES_ID_ => 
+    CREATE_TIME_ => 
+    TENANT_ID_ => 
+}
+
+map "ACT_RU_VARIABLE\n运行时变量表" as ACT_RU_VARIABLE {
+    ID_ => 主键
+    REV_ => 数据版本号
+    TYPE_ => 参数类型
+    NAME_ => 参数名称
+    EXECUTION_ID_ => 参数执行ID
+    PROC_INST_ID_ => 流程实例ID
+    TASK_ID_ => 任务ID
+    SCOPE_ID_ => 
+    SUB_SCOPE_ID_ => 
+    SCOPE_TYPE_ => 
+    BYTEARRAY_ID_ => 资源ID
+    DOUBLE_ => 参数为double，则保存在该字段中
+    LONG_ => 参数为long，则保存在该字段中
+    TEXT_ => 用户保存文本类型的参数值
+    TEXT2_ => 用户保存文本类型的参数值	
+}
+
+ACT_CMMN_RU_CASE_INST::CASE_DEF_ID_ --> ACT_CMMN_CASEDEF::ID_
+
+ACT_CMMN_RU_MIL_INST::CASE_DEF_ID_ --> ACT_CMMN_CASEDEF::ID_
+ACT_CMMN_RU_MIL_INST::CASE_INST_ID_ --> ACT_CMMN_RU_CASE_INST::ID_
+
+ACT_CMMN_CASEDEF::DEPLOYMENT_ID_ --> ACT_CMMN_DEPLOYMENT::ID_
+ACT_CMMN_DEPLOYMENT_RESOURCE::DEPLOYMENT_ID_ --> ACT_CMMN_DEPLOYMENT::ID_
+
+ACT_CMMN_RU_PLAN_ITEM_INST::CASE_DEF_ID_ --> ACT_CMMN_CASEDEF::ID_
+ACT_CMMN_RU_PLAN_ITEM_INST::CASE_INST_ID_ --> ACT_CMMN_RU_CASE_INST::ID_
+
+ACT_CMMN_RU_SENTRY_PART_INST::CASE_DEF_ID_ --> ACT_CMMN_CASEDEF::ID_
+ACT_CMMN_RU_SENTRY_PART_INST::CASE_INST_ID_ --> ACT_CMMN_RU_CASE_INST::ID_
+ACT_CMMN_RU_SENTRY_PART_INST::PLAN_ITEM_INST_ID_ --> ACT_CMMN_RU_PLAN_ITEM_INST::ID_
+
+ACT_DMN_HI_DECISION_EXECUTION::DEPLOYMENT_ID_ --> ACT_DMN_DEPLOYMENT::ID_
+ACT_DMN_DECISION_TABLE::DEPLOYMENT_ID_ --> ACT_DMN_DEPLOYMENT::ID_
+
+ACT_FO_FORM_INSTANCE::FORM_DEFINITION_ID_ --> ACT_FO_FORM_DEFINITION::ID_
+
+ACT_GE_BYTEARRAY::DEPLOYMENT_ID_ --> ACT_RE_DEPLOYMENT::ID_
+
+ACT_HI_ATTACHMENT::USER_ID_ --> ACT_ID_USER::ID_
+ACT_HI_COMMENT::USER_ID_ --> ACT_ID_USER::ID_
+ACT_HI_IDENTITYLINK::USER_ID_ --> ACT_ID_USER::ID_
+ACT_HI_PROCINST::START_USER_ID_ --> ACT_ID_USER::ID_
+
+ACT_ID_INFO::USER_ID_ --> ACT_ID_USER::ID_
+ACT_ID_MEMBERSHIP::USER_ID_ --> ACT_ID_USER::ID_
+ACT_ID_MEMBERSHIP::GROUP_ID_ --> ACT_ID_GROUP::ID_
+ACT_ID_PRIV_MAPPING::PRIV_ID_ --> ACT_ID_PRIV::ID_
+ACT_ID_PRIV_MAPPING::USER_ID_ --> ACT_ID_USER::ID_
+ACT_ID_PRIV_MAPPING::GROUP_ID_ --> ACT_ID_GROUP::ID_
+ACT_ID_TOKEN::USER_ID_ --> ACT_ID_USER::ID_
+
+ACT_PROCDEF_INFO::INFO_JSON_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_PROCDEF_INFO::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RE_MODEL::DEPLOYMENT_ID_ --> ACT_RE_DEPLOYMENT::ID_
+ACT_RE_MODEL::EDITOR_SOURCE_VALUE_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RE_MODEL::EDITOR_SOURCE_EXTRA_VALUE_ID_ --> ACT_GE_BYTEARRAY::ID_
+
+ACT_RU_DEADLETTER_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_DEADLETTER_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_DEADLETTER_JOB::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_DEADLETTER_JOB::PROCESS_INSTANCE_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_DEADLETTER_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_EVENT_SUBSCR::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+
+ACT_RU_EXECUTION::PARENT_ID_ --> ACT_RU_EXECUTION2::ID_
+ACT_RU_EXECUTION::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+ACT_RU_EXECUTION::PROC_INST_ID_ --> ACT_RU_EXECUTION2::ID_
+ACT_RU_EXECUTION::SUPER_EXEC_ --> ACT_RU_EXECUTION2::ID_
+
+ACT_RU_IDENTITYLINK::GROUP_ID_--> ACT_ID_GROUP::ID_
+ACT_RU_IDENTITYLINK::USER_ID_ --> ACT_ID_USER::ID_
+
+ACT_RU_IDENTITYLINK::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+ACT_RU_IDENTITYLINK::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_IDENTITYLINK::TASK_ID_ --> ACT_RU_TASK::ID_
+
+ACT_RU_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_JOB::EXECUTION_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_JOB::PROCESS_INSTANCE_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_SUSPENDED_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_SUSPENDED_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_SUSPENDED_JOB::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_SUSPENDED_JOB::PROCESS_INSTANCE_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_SUSPENDED_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_TASK::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_TASK::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+ACT_RU_TASK::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
+
+ACT_RU_TIMER_JOB::CUSTOM_VALUES_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_TIMER_JOB::EXCEPTION_STACK_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_TIMER_JOB::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_TIMER_JOB::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_TIMER_JOB::PROC_DEF_ID_ --> ACT_RE_PROCDEF::ID_
+
+ACT_RU_VARIABLE::BYTEARRAY_ID_ --> ACT_GE_BYTEARRAY::ID_
+ACT_RU_VARIABLE::EXECUTION_ID_ --> ACT_RU_EXECUTION::ID_
+ACT_RU_VARIABLE::PROC_INST_ID_ --> ACT_RU_EXECUTION::ID_
+
+@enduml

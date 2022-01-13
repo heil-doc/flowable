@@ -1,4 +1,6 @@
 ## VIM ###
 *\.swp
 *\.swo
+*\.adoc
 *~
+.project
